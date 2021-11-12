@@ -7,6 +7,12 @@ name = "pypi"
 django = "==2.2"
 
 [dev-packages]
+autopep8 = "*"
+yapf = "*"
+black = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
