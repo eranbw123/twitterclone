@@ -9,6 +9,10 @@ def home_view(request, *args, **kwargs):
     return render(request, "pages/home.html", context={}, status=200)
 
 
+def x():
+    return 0
+
+
 def tweet_list_view(request, *args, **kwargs):
     """
     REST API VIEW
