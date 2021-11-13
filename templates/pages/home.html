@@ -10,20 +10,24 @@
 <script>
 
 const tweetsElement = document.getElementById("tweets")
-// tweetsElement.innerHTML = "Loading..."
-
-// var el1 = "<h1>Hi there 1</h1>"
-// var el2 = "<h1>Hi there 2</h1>"
-// var el3 = "<h1>Hi there 3</h1>"
-// tweetsElement.innerHTML = el1 + el2 + el3
-
 const xhr = new XMLHttpRequest()
 const method = "GET"
 const url = "/tweets"
 const responseType = "json"
 
+const handleDidLike = (tweet_id, currentCount) =>{
+    console.log(tweet_id, currentCount);
+}
+
+const LikeBtn = (tweet) =>{
+    return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
+}
+
 const formatTweetElement = (tweet) =>{
-    var formattedTweet = "<div class='mb-4'><h1>" + tweet.id + "</h1>" + "<p>" + tweet.content + "</p></div>" 
+    var formattedTweet = "<div class='mb-4 tweet' id='tweet-" + tweet.id 
+    + "'><p>" + tweet.content 
+        + "</p><div class='btn-group'>" + LikeBtn(tweet) +
+        "</div></div>" 
     return formattedTweet
 }
 xhr.responseType = responseType
