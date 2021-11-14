@@ -46,8 +46,12 @@ const handleTweetCreateFormDidSubmit = (event) =>{
         myForm.reset()
         } else if (xhr.status === 400){
             const errorJson = xhr.response
-            console.log(errorJson);
-        } else if (xhr.status === 500){
+            alert("An error occurred. Please tye again later")
+        } else if (xhr.status === 401){
+            alert("Yout must login!")
+            window.location.href = "/login"
+        }
+        else if (xhr.status === 500){
             alert("There was a server error, please try again")
         }
     }
@@ -72,7 +76,7 @@ const loadTweets = (tweetsElement) =>{
     xhr.open(method, url)
     xhr.onload = function () {
         const serverResponse = xhr.response
-        const listedItems = serverResponse.response
+        const listedItems = serverResponse
         var finalTweetStr = ""
         var i;
         for (i = 0; i < listedItems.length; i++) {
