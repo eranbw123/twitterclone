@@ -41,7 +41,6 @@ const handleTweetCreateFormDidSubmit = (event) =>{
         if (xhr.status === 201){
         const newTweet = xhr.response
         const newTweetElement = formatTweetElement(newTweet)
-        console.log(newTweetElement);
         const ogHtml = tweetsContainerElement.innerHTML
         tweetsContainerElement.innerHTML = newTweetElement + ogHtml
         myForm.reset()
@@ -51,9 +50,7 @@ const handleTweetCreateFormDidSubmit = (event) =>{
         } else if (xhr.status === 500){
             alert("There was a server error, please try again")
         }
-        console.log(xhr.status);
     }
-    console.log(xhr.status);
     xhr.onerror = () => {
         alert("An error occurred. Please tye again later")
     }
