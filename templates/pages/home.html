@@ -51,6 +51,10 @@ const handleTweetCreateFormDidSubmit = (event) =>{
             alert("Yout must login!")
             window.location.href = "/login"
         }
+        else if (xhr.status === 403){
+            alert("Yout must login!")
+            window.location.href = "/login"
+        }
         else if (xhr.status === 500){
             alert("There was a server error, please try again")
         }
