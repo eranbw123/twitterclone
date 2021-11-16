@@ -15,7 +15,7 @@ class TweetLike(models.Model):
 
 class Tweet(models.Model):
     # blank = required in django, null = required in the DataBase
-    parent = models.ForeignKey("self")
+    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # many users can many tweets, but only one user to each tweet
     likes = models.ManyToManyField(
@@ -31,5 +31,6 @@ class Tweet(models.Model):
     class Meta:
         ordering = ["-id"]
 
-    def serialize(self):
-        return {"id": self.id, "content": self.content, "likes": random.randint(0, 200)}
+    @property
+    def is_retweet(self):
+        return self.parent != None

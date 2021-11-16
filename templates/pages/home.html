@@ -45,7 +45,7 @@ const handleTweetCreateFormDidSubmit = (event) =>{
     event.preventDefault()
     const myForm = event.target
     const myFormData = new FormData(myForm)
-    const url = myForm.getAttribute("action")
+    const url = myForm.getAttribute("api/tweets/action/")
     const method = myForm.getAttribute("method")
     const xhr = new XMLHttpRequest()
     const responseType = "json"
@@ -90,7 +90,7 @@ const tweetsContainerElement = document.getElementById("tweets")
 const loadTweets = (tweetsElement) =>{
     const xhr = new XMLHttpRequest()
     const method = "GET"
-    const url = "/tweets"
+    const url = "api/tweets"
     const responseType = "json"
     xhr.responseType = responseType
     xhr.open(method, url)
@@ -114,7 +114,7 @@ loadTweets(tweetsContainerElement)
 
 const handleTweetActionBtn = (tweet_id, currentCount, action) =>{
     console.log(tweet_id, currentCount);
-    const url = "api/tweets/action"
+    const url = "api/tweets/action/"
     const method = "POST"
     const data = JSON.stringify({
         id: tweet_id,
