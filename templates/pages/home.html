@@ -10,7 +10,7 @@
 
 <div class="row mb-3">
     <div class="col-md-4 mx-auto col-10">
-        <form method="POST" id="tweet-create-form" action="/create-tweet" class="form">
+        <form method="POST" id="tweet-create-form" action="api/tweets/create/" class="form">
             {% csrf_token %}
             <input type="hidden" value="/" name="next">
             <textarea required='required' name="content" class="form-control" placeholder="Your Tweet"></textarea>
@@ -45,7 +45,8 @@ const handleTweetCreateFormDidSubmit = (event) =>{
     event.preventDefault()
     const myForm = event.target
     const myFormData = new FormData(myForm)
-    const url = myForm.getAttribute("api/tweets/action/")
+    console.log(myFormData);
+    const url = myForm.getAttribute("action")
     const method = myForm.getAttribute("method")
     const xhr = new XMLHttpRequest()
     const responseType = "json"
