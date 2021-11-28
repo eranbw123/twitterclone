@@ -2,14 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { TweetsComponent } from "./tweets";
+import { Navbar } from "./home/navbar";
 
 const App = () => {
   return (
     <Router>
-      <h1>test</h1>
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<TweetsComponent />} />
-        <Route path="/about" element={<TweetsComponent />} />
+        {/* <Route path="/about" element={} /> */}
       </Routes>
     </Router>
   );
