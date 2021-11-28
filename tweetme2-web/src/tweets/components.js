@@ -1,14 +1,28 @@
 import React, { useEffect, useState, createRef } from "react";
-import { loadTweets } from "../lookup";
+import { apiTweetList, apiTweetCreate } from "./lookup";
 
 export const TweetsComponent = (props) => {
   const textAreaRef = createRef();
+  const [newTweets, setNewTweets] = useState([]);
+
+  const handleBackendUpdate = (response, status) => {
+    // backend api response handeler
+    let tempNewTweets = [...newTweets];
+    if (status === 201) {
+      tempNewTweets.unshift(response);
+      setNewTweets(tempNewTweets);
+    } else {
+      console.log(response);
+      alert("An error occured please try again");
+    }
+  };
   const handleSubmit = (event) => {
+    //backend api request
     event.preventDefault();
     const newVal = textAreaRef.current.value;
+    apiTweetCreate(newVal, handleBackendUpdate);
     textAreaRef.current.value = "";
   };
-
   return (
     <div className={props.className}>
       <div className="col-12 mb-3">
@@ -23,8 +37,34 @@ export const TweetsComponent = (props) => {
           </button>
         </form>
       </div>
-      <TweetList />
+      <TweetList newTweets={newTweets} />
     </div>
+  );
+};
+
+export const TweetList = (props) => {
+  const [tweetsInit, setTweetsInit] = useState([]);
+  const [tweets, setTweets] = useState([]);
+  useEffect(() => {
+    let final = [...props.newTweets].concat(tweetsInit);
+    if (final.length !== tweets.length) {
+      setTweets(final);
+    }
+  }, [props.newTweets, tweetsInit, tweets]);
+  useEffect(() => {
+    const handleTweetListLookup = (response, status) => {
+      if (status === 200) {
+        setTweetsInit(response);
+      }
+    };
+    apiTweetList(handleTweetListLookup);
+  }, []);
+  return (
+    <>
+      {tweets.map((tweet, index) => {
+        return <Tweet className="" tweet={tweet} key={tweet.id} />;
+      })}
+    </>
   );
 };
 
@@ -71,24 +111,5 @@ export const Tweet = ({ tweet }) => {
         />
       </div>
     </div>
-  );
-};
-
-export const TweetList = () => {
-  const [tweets, setTweets] = useState([]);
-  useEffect(() => {
-    const myCallback = (response, status) => {
-      if (status === 200) {
-        setTweets(response);
-      }
-    };
-    loadTweets(myCallback);
-  }, []);
-  return (
-    <>
-      {tweets.map((tweet, index) => {
-        return <Tweet className="" tweet={tweet} key={tweet.id} />;
-      })}
-    </>
   );
 };
