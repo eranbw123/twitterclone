@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from "react";
-import { apiTweetList, apiTweetCreate } from "./lookup";
+import { apiTweetList, apiTweetCreate, apiTweetAction } from "./lookup";
 
 export const TweetsComponent = (props) => {
   const textAreaRef = createRef();
@@ -25,14 +25,18 @@ export const TweetsComponent = (props) => {
   };
   return (
     <div className={props.className}>
-      <div className="col-12 mb-3">
+      <div className="col-md-4 mx-auto col-10">
+        <div className="row text-center">
+          <h1>Welcome to Tweetme2</h1>
+        </div>
         <form onSubmit={handleSubmit}>
           <textarea
             ref={textAreaRef}
             required={true}
             className="form-control"
+            placeholder="Your Tweet"
           ></textarea>
-          <button type="submit" className="btn btn-primary my-3">
+          <button type="submit" className="btn btn-primary mb-3">
             Tweet
           </button>
         </form>
@@ -68,46 +72,79 @@ export const TweetList = (props) => {
   );
 };
 
-export const ActionBtn = ({ tweet, action }) => {
+export const ActionBtn = ({ tweet, action, className }) => {
   const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0);
-  const [userLike, setUserLike] = useState(false);
+  // const [userLike, setUserLike] = useState(false);
   const display =
     action.type === "like" ? `${likes} ${action.display}` : action.display;
 
-  const handleClick = () => {
-    if (action.type === "like") {
-      if (userLike) {
-        setLikes(likes - 1);
-        setUserLike(!userLike);
-      } else {
-        setLikes(likes + 1);
-        setUserLike(!userLike);
-      }
+  const handleActionBackendEvent = (response, status) => {
+    console.log(response, status);
+    if (status === 200) {
+      setLikes(response.likes);
+      // setUserLike(true)
     }
   };
+
+  const handleClick = () => {
+    apiTweetAction(tweet.id, action.type, handleActionBackendEvent);
+  };
   return (
-    <button className="btn btn-primary btn-sm" onClick={() => handleClick()}>
+    <button className={className} onClick={() => handleClick()}>
       {display}
     </button>
   );
 };
 
-export const Tweet = ({ tweet }) => {
-  const { id, content } = tweet;
+export const ParentTweet = (props) => {
+  return props.tweet.parent ? (
+    <div className="row">
+      <div className="col-11 mx-auto p-3 border rounded">
+        <p className="mb-0 text-muted small">Retweet</p>
+        <Tweet className={" "} tweet={props.tweet.parent} />
+      </div>
+    </div>
+  ) : null;
+};
+
+export const Tweet = (props) => {
+  // col-10 mx-auto col-md-10 my-5 py-5 border bg-white text-dark
+  const className = props.className
+    ? props.className
+    : "col-12 col-md-10 mx-auto border rounded py-3 mb-5 tweet ";
+  const { id, content } = props.tweet;
   return (
-    <div className="col-10 mx-auto col-md-10 my-5 py-5 border bg-white text-dark">
-      <p>
-        {id} - {content}
-      </p>
+    <div className={className}>
+      <div>
+        <p>
+          {id} - {content}
+        </p>
+        <ParentTweet tweet={props.tweet} />
+      </div>
       <div className="btn btn-group">
-        <ActionBtn tweet={tweet} action={{ type: "like", display: "Likes" }} />
         <ActionBtn
-          tweet={tweet}
-          action={{ type: "unlike", display: "Unlike" }}
+          tweet={props.tweet}
+          action={{
+            type: "like",
+            display: "Likes",
+          }}
+          className="btn btn-primary btn-sm'"
         />
         <ActionBtn
-          tweet={tweet}
-          action={{ type: "retweet", display: "Retweet" }}
+          tweet={props.tweet}
+          action={{
+            type: "unlike",
+            display: "Unlike",
+          }}
+          className="btn btn-outline-primary btn-sm"
+        />
+        <ActionBtn
+          tweet={props.tweet}
+          action={{
+            type: "retweet",
+            display: "Retweet",
+          }}
+          className="btn btn-outline-success btn-sm"
         />
       </div>
     </div>
