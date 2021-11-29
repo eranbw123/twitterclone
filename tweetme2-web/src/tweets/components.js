@@ -63,26 +63,43 @@ export const TweetList = (props) => {
     };
     apiTweetList(handleTweetListLookup);
   }, []);
+
+  const handleDidRetweet = (newTweet) => {
+    console.log(1);
+    const updatedTweetsInit = [...tweetsInit];
+    updatedTweetsInit.unshift(newTweet);
+    setTweetsInit(updatedTweetsInit);
+    const updateFinalTweets = [...tweets];
+    updateFinalTweets.unshift(newTweet);
+    setTweets(updateFinalTweets);
+  };
+
   return (
     <>
       {tweets.map((tweet, index) => {
-        return <Tweet className="" tweet={tweet} key={tweet.id} />;
+        return (
+          <Tweet
+            didRetweet={handleDidRetweet}
+            className=""
+            tweet={tweet}
+            key={tweet.id}
+          />
+        );
       })}
     </>
   );
 };
 
-export const ActionBtn = ({ tweet, action, className }) => {
-  const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0);
-  // const [userLike, setUserLike] = useState(false);
+export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
+  const likes = tweet.likes ? tweet.likes : 0;
   const display =
     action.type === "like" ? `${likes} ${action.display}` : action.display;
 
   const handleActionBackendEvent = (response, status) => {
     console.log(response, status);
-    if (status === 200) {
-      setLikes(response.likes);
-      // setUserLike(true)
+    if ((status === 200 || status === 201) && didPerformAction) {
+      console.log("clicked button");
+      didPerformAction(response, status);
     }
   };
 
@@ -101,18 +118,34 @@ export const ParentTweet = (props) => {
     <div className="row">
       <div className="col-11 mx-auto p-3 border rounded">
         <p className="mb-0 text-muted small">Retweet</p>
-        <Tweet className={" "} tweet={props.tweet.parent} />
+        <Tweet hideActions className={" "} tweet={props.tweet.parent} />
       </div>
     </div>
   ) : null;
 };
 
 export const Tweet = (props) => {
-  // col-10 mx-auto col-md-10 my-5 py-5 border bg-white text-dark
+  const [actionTweet, setActionTweet] = useState(
+    props.tweet ? props.tweet : null
+  );
   const className = props.className
     ? props.className
     : "col-12 col-md-10 mx-auto border rounded py-3 mb-5 tweet ";
   const { id, content } = props.tweet;
+
+  const handlePerformAction = (newActionTweet, status) => {
+    console.log("handeling action", status);
+    if (status === 200) {
+      setActionTweet(newActionTweet);
+    } else if (status === 201) {
+      console.log("created");
+      if (props.didRetweet) {
+        console.log("calling didRetweet");
+        props.didRetweet(newActionTweet);
+      }
+    }
+  };
+
   return (
     <div className={className}>
       <div>
@@ -121,32 +154,37 @@ export const Tweet = (props) => {
         </p>
         <ParentTweet tweet={props.tweet} />
       </div>
-      <div className="btn btn-group">
-        <ActionBtn
-          tweet={props.tweet}
-          action={{
-            type: "like",
-            display: "Likes",
-          }}
-          className="btn btn-primary btn-sm'"
-        />
-        <ActionBtn
-          tweet={props.tweet}
-          action={{
-            type: "unlike",
-            display: "Unlike",
-          }}
-          className="btn btn-outline-primary btn-sm"
-        />
-        <ActionBtn
-          tweet={props.tweet}
-          action={{
-            type: "retweet",
-            display: "Retweet",
-          }}
-          className="btn btn-outline-success btn-sm"
-        />
-      </div>
+      {actionTweet && props.hideActions !== true && (
+        <div className="btn btn-group">
+          <ActionBtn
+            tweet={actionTweet}
+            action={{
+              type: "like",
+              display: "Likes",
+            }}
+            className="btn btn-primary btn-sm'"
+            didPerformAction={handlePerformAction}
+          />
+          <ActionBtn
+            tweet={actionTweet}
+            action={{
+              type: "unlike",
+              display: "Unlike",
+            }}
+            className="btn btn-outline-primary btn-sm"
+            didPerformAction={handlePerformAction}
+          />
+          <ActionBtn
+            tweet={actionTweet}
+            action={{
+              type: "retweet",
+              display: "Retweet",
+            }}
+            className="btn btn-outline-success btn-sm"
+            didPerformAction={handlePerformAction}
+          />
+        </div>
+      )}
     </div>
   );
 };
