@@ -10,7 +10,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<TweetsComponent />} />
-        {/* <Route path="/about" element={} /> */}
+        <Route path="/tweets/:username" element={<TweetsComponent />} />
       </Routes>
     </Router>
   );

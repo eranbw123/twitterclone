@@ -15,7 +15,7 @@ class TweetLike(models.Model):
 
 class Tweet(models.Model):
     # blank = required in django, null = required in the DataBase
-    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # many users can many tweets, but only one user to each tweet
     likes = models.ManyToManyField(
