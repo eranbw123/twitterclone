@@ -36,7 +36,10 @@ export const Tweet = (props) => {
     <div className={className}>
       <div>
         <p>
-          <Link to={`/tweet/${id}`}>
+          <Link
+            to={`/tweet/${id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
             {id} - {content}
           </Link>
         </p>
