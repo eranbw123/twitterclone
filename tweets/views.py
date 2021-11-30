@@ -28,10 +28,6 @@ from .serializers import (
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 
-def home_view(request, *args, **kwargs):
-    return render(request, "pages/home.html", context={}, status=200)
-
-
 @api_view(["POST"])  # http method the client == POST
 # @authentication_classes([SessionAuthentication]) # set in default settings
 @permission_classes([IsAuthenticated])

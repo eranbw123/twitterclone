@@ -19,6 +19,12 @@ export const backendLookup = async (method, endpoint, callback, data) => {
     body: jsonData,
   });
   const serverResponse = await response.json();
+  if (response.status === 403) {
+    const detail = serverResponse.detail;
+    if (detail === "Authentication credentials were not provided.") {
+      window.location.href = "/login?showLoginRequired=true";
+    }
+  }
   callback(serverResponse, response.status);
 };
 
