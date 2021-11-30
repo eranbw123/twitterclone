@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ActionBtn } from "./buttons";
+import { Link } from "react-router-dom";
 
 export const ParentTweet = (props) => {
   return props.tweet.parent ? (
@@ -22,13 +23,10 @@ export const Tweet = (props) => {
   const { id, content } = props.tweet;
 
   const handlePerformAction = (newActionTweet, status) => {
-    console.log("handeling action", status);
     if (status === 200) {
       setActionTweet(newActionTweet);
     } else if (status === 201) {
-      console.log("created");
       if (props.didRetweet) {
-        console.log("calling didRetweet");
         props.didRetweet(newActionTweet);
       }
     }
@@ -38,7 +36,9 @@ export const Tweet = (props) => {
     <div className={className}>
       <div>
         <p>
-          {id} - {content}
+          <Link to={`/tweet/${id}`}>
+            {id} - {content}
+          </Link>
         </p>
         <ParentTweet tweet={props.tweet} />
       </div>
