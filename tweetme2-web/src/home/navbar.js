@@ -1,7 +1,7 @@
 import { React } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
-export const MainNavbar = () => {
+export const MainNavbar = (props) => {
   const handleLogout = () => {
     localStorage.clear();
   };
@@ -14,9 +14,14 @@ export const MainNavbar = () => {
           <Nav className="me-auto">
             <Nav.Link href="/">Tweets</Nav.Link>
             {localStorage.getItem("token") && (
-              <Nav.Link href="/" onClick={handleLogout}>
-                Log Out
-              </Nav.Link>
+              <>
+                <Nav.Link href="/" onClick={handleLogout}>
+                  Log Out
+                </Nav.Link>
+                <Nav.Link href="/profile">
+                  {localStorage.getItem("username")}
+                </Nav.Link>
+              </>
             )}
             {!localStorage.getItem("token") && (
               <>

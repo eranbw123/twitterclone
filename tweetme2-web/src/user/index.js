@@ -1,5 +1,5 @@
 import { Login } from "./login";
-import { apiRegister, apiLogin } from "./lookup";
+import { apiRegister, apiLogin, apiUserDetail } from "./lookup";
 import { RegistrationForm } from "./register";
 
-export { Login, apiRegister, RegistrationForm, apiLogin };
+export { Login, apiRegister, RegistrationForm, apiLogin, apiUserDetail };

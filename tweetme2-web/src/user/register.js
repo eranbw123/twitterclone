@@ -26,32 +26,42 @@ export const RegistrationForm = (props) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          ref={refUsername}
-          type="text"
-          placeholder="Enter username"
-        />
-      </Form.Group>
+    <>
+      {!localStorage.getItem("token") ? (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              ref={refUsername}
+              type="text"
+              placeholder="Enter username"
+            />
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control ref={refEmail} type="email" placeholder="Enter email" />
-      </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              ref={refEmail}
+              type="email"
+              placeholder="Enter email"
+            />
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          ref={refPassword}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              ref={refPassword}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      ) : (
+        <h2 className={"mt-3"}>Logged in user cannot register</h2>
+      )}
+    </>
   );
 };

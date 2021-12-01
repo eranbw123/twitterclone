@@ -7,5 +7,9 @@ export const apiRegister = (username, email, password, callback) => {
 
 export const apiLogin = (username, password, callback) => {
   const data = { username: username, password: password };
-  backendLookup("POST", "/auth/token/login", callback, data);
+  backendLookup("POST", "/auth/token/login/", callback, data);
+};
+
+export const apiUserDetail = (callback) => {
+  backendLookup("GET", "/auth/users/me/", callback);
 };

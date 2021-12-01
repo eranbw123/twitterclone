@@ -12,8 +12,8 @@ const App = () => {
       <MainNavbar />
       <Routes>
         <Route exact path="/" element={<TweetsComponent />} />
-        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/tweets/:username" element={<TweetsComponent />} />
         <Route path="/tweet/:tweetId" element={<TweetDetailComponent />} />
       </Routes>
