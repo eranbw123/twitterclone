@@ -1,28 +1,28 @@
 import React, { createRef } from "react";
-import { Button, Form } from "react-bootstrap";
-import { apiRegister } from "./lookup";
+import { Form, Button } from "react-bootstrap";
+import { apiLogin } from ".";
 
-export const RegistrationForm = (props) => {
+export const Login = (props) => {
   const refUsername = createRef();
-  const refEmail = createRef();
   const refPassword = createRef();
 
-  const handleUserRegister = (response, status) => {
+  const handleLogin = (response, status) => {
     console.log(status, response);
-    if (status === 201) {
-      window.location.href = "/login";
+    if (status === 200) {
+      const auth_token = response.auth_token;
+      localStorage.setItem("token", auth_token);
+      window.location.href = "/";
     } else {
-      alert("there was an error while trying to register the user");
+      alert("there was an error while trying to log in");
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const username = refUsername.current.value;
-    const email = refEmail.current.value;
     const password = refPassword.current.value;
-    console.log(username, email, password);
-    apiRegister(username, email, password, handleUserRegister);
+    console.log(username, password);
+    apiLogin(username, password, handleLogin);
   };
 
   return (
@@ -34,11 +34,6 @@ export const RegistrationForm = (props) => {
           type="text"
           placeholder="Enter username"
         />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control ref={refEmail} type="email" placeholder="Enter email" />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
