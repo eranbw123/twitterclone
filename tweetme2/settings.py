@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework.authtoken",
     # third-party
     "corsheaders",
     "rest_framework",
+    "djoser",
     # internal
     "tweets",
+    "users_auth",
 ]
 
 MIDDLEWARE = [
@@ -137,7 +140,7 @@ CORS_URLS_REGEX = r"^/api/.*$"
 
 # settings
 DEFAULT_AUTHENTICATION_CLASSES = [
-    "rest_framework.authentication.SessionAuthentication",
+    "rest_framework.authentication.TokenAuthentication",
 ]
 
 DEFAULT_RENDERER_CLASSES = [
