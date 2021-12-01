@@ -26,7 +26,7 @@ export const RegistrationForm = (props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3 mt-3" controlId="formBasicUsername">
+      <Form.Group className="mb-3" controlId="formBasicUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
           ref={refUsername}
