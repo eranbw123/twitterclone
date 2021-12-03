@@ -1,7 +1,6 @@
-from django.http import request
 from django.test import TestCase
 from django.contrib.auth.models import User
-
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
 from .models import Tweet
@@ -18,7 +17,12 @@ class TweetTestCase(TestCase):
 
     def get_client(self):
         client = APIClient()
-        client.login(username=self.user.username, password="password")
+        response = client.post(
+            "/api/auth/token/login/",
+            {"username": self.user.username, "password": "password"},
+        )
+        token = response.json().get("auth_token")
+        client.credentials(HTTP_AUTHORIZATION="Token " + token)
         return client
 
     def test_tweet_created(self):
