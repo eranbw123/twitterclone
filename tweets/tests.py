@@ -36,27 +36,35 @@ class TweetTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 3)
 
+    def test_tweets_related_name(self):
+        user = self.user
+        self.assertEqual(user.tweets.count(), 2)
+
     def test_action_like(self):
         client = self.get_client()
         response = client.post("/api/tweets/action/", {"id": 1, "action": "like"})
-        self.assertEqual(response.status_code, 200)
         like_count = response.json().get("likes")
+        my_like_instances_count = self.user.tweetlike_set.count()
+        my_related_likes_count = self.user.tweet_user.count()
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(like_count, 1)
+        self.assertEqual(my_like_instances_count, 1)
+        self.assertEqual(my_related_likes_count, my_like_instances_count)
 
     def test_action_unlike(self):
         client = self.get_client()
         response = client.post("/api/tweets/action/", {"id": 1, "action": "unlike"})
-        self.assertEqual(response.status_code, 200)
         like_count = response.json().get("likes")
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(like_count, 0)
 
     def test_action_retweet(self):
         client = self.get_client()
         current_count = self.curret_count
         response = client.post("/api/tweets/action/", {"id": 1, "action": "retweet"})
-        self.assertEqual(response.status_code, 201)
         data = response.json()
         new_tweet_id = data.get("id")
+        self.assertEqual(response.status_code, 201)
         self.assertNotEqual(2, new_tweet_id)
         self.assertEqual(current_count + 1, new_tweet_id)
 
@@ -65,8 +73,8 @@ class TweetTestCase(TestCase):
         current_count = self.curret_count
         client = self.get_client()
         response = client.post("/api/tweets/create/", request_data)
-        self.assertEqual(response.status_code, 201)
         new_tweet_id = response.json().get("id")
+        self.assertEqual(response.status_code, 201)
         self.assertEqual(current_count + 1, new_tweet_id)
 
     def test_tweet_detail_api_view(self):
@@ -80,10 +88,10 @@ class TweetTestCase(TestCase):
         prev_count = self.curret_count
         tweet_id = Tweet.objects.all().first().id
         response = client.post(f"/api/tweets/1/delete/")
-        self.assertEqual(response.status_code, 200)
         new_count = Tweet.objects.all().count()
-        self.assertEqual(new_count, prev_count - 1)
         response = client.post(f"/api/tweets/10/delete/")
-        self.assertEqual(response.status_code, 404)
         response = client.post(f"/api/tweets/3/delete/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(new_count, prev_count - 1)
+        self.assertEqual(response.status_code, 404)
         self.assertEqual(response.status_code, 401)
