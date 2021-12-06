@@ -14,7 +14,6 @@ export const ParentTweet = (props) => {
 };
 
 export const Tweet = (props) => {
-  console.log(props.tweet);
   const [actionTweet, setActionTweet] = useState(
     props.tweet ? props.tweet : null
   );

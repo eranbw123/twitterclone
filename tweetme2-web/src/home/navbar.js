@@ -14,7 +14,9 @@ export const MainNavbar = (props) => {
       <Navbar bg="dark" variant="dark" className="mb-5">
         <Container>
           <Navbar.Brand href="/">
-            <IconContext.Provider value={{ size: 35 }}>
+            <IconContext.Provider
+              value={{ size: 35, color: "rgb(29,161,242)" }}
+            >
               <BsTwitter />
             </IconContext.Provider>
           </Navbar.Brand>
@@ -28,7 +30,9 @@ export const MainNavbar = (props) => {
                 {localStorage.getItem("username")}
               </Nav.Link>
               <Nav.Link href="/" onClick={handleLogout}>
-                <IconContext.Provider value={{ size: 21 }}>
+                <IconContext.Provider
+                  value={{ size: 21, color: "rgb(220,220,220)" }}
+                >
                   <RiLogoutBoxFill />
                 </IconContext.Provider>
               </Nav.Link>
@@ -38,7 +42,9 @@ export const MainNavbar = (props) => {
             <Nav className="ms-auto">
               <Nav.Link href="/register">Register</Nav.Link>
               <Nav.Link href="/login">
-                <IconContext.Provider value={{ size: 21 }}>
+                <IconContext.Provider
+                  value={{ size: 21, color: "rgb(220,220,220)" }}
+                >
                   <RiLoginBoxFill />
                 </IconContext.Provider>
               </Nav.Link>

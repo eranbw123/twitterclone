@@ -70,7 +70,6 @@ def tweet_action_view(request, *args, **kwargs):
     id is required
     Action options are: like, unlike, retweet
     """
-    # print(request.data, request.POST)
     serializer = TweetActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         data = serializer.validated_data

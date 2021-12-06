@@ -21,6 +21,7 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
     case "retweet":
       display = <FaRetweet />;
       break;
+    default:
   }
 
   const handleActionBackendEvent = (response, status) => {

@@ -18,9 +18,8 @@ export const TweetsComponent = (props) => {
     };
     apiTweetList(username, handleTweetListLookup);
   };
-  useEffect(() => {
-    updateTweets();
-  }, []);
+
+  useEffect(updateTweets, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <TweetCreate updateTweets={updateTweets} />
@@ -35,7 +34,6 @@ export const TweetDetailComponent = (props) => {
 
   const handleBackendLookup = (response, status) => {
     if (status === 200) {
-      console.log(response, status);
       setTweet(response);
     } else {
       alert("there was an error finding your tweet");
@@ -46,5 +44,7 @@ export const TweetDetailComponent = (props) => {
     apiTweetDetail(tweetId, handleBackendLookup);
   }, [tweetId]);
 
-  return tweet === null ? null : <Tweet className={props.className} />;
+  return tweet === null ? null : (
+    <Tweet tweet={tweet} className={props.className} />
+  );
 };
