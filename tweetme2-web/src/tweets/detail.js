@@ -14,21 +14,20 @@ export const ParentTweet = (props) => {
 };
 
 export const Tweet = (props) => {
+  console.log(props.tweet);
   const [actionTweet, setActionTweet] = useState(
     props.tweet ? props.tweet : null
   );
   const className = props.className
     ? props.className
-    : "col-12 col-md-10 mx-auto border rounded py-3 mb-5 tweet ";
+    : "col-12 col-md-8 mx-auto border rounded py-3 mb-5 tweet ";
   const { id, content } = props.tweet;
 
   const handlePerformAction = (newActionTweet, status) => {
     if (status === 200) {
       setActionTweet(newActionTweet);
     } else if (status === 201) {
-      if (props.didRetweet) {
-        props.didRetweet(newActionTweet);
-      }
+      props.updateTweets();
     }
   };
 
@@ -51,7 +50,6 @@ export const Tweet = (props) => {
             tweet={actionTweet}
             action={{
               type: "like",
-              display: "Likes",
             }}
             className="btn btn-primary btn-sm'"
             didPerformAction={handlePerformAction}
@@ -60,16 +58,14 @@ export const Tweet = (props) => {
             tweet={actionTweet}
             action={{
               type: "unlike",
-              display: "Unlike",
             }}
-            className="btn btn-outline-primary btn-sm"
+            className="btn btn-outline-secondary btn-sm"
             didPerformAction={handlePerformAction}
           />
           <ActionBtn
             tweet={actionTweet}
             action={{
               type: "retweet",
-              display: "Retweet",
             }}
             className="btn btn-outline-success btn-sm"
             didPerformAction={handlePerformAction}

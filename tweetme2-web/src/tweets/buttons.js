@@ -1,15 +1,30 @@
 import React from "react";
 import { apiTweetAction } from "./lookup";
+import { BiLike, BiDislike } from "react-icons/bi";
+import { FaRetweet } from "react-icons/fa";
+import { IconContext } from "react-icons";
 
 export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   const likes = tweet.likes ? tweet.likes : 0;
-  const display =
-    action.type === "like" ? `${likes} ${action.display}` : action.display;
+  var display;
+  switch (action.type) {
+    case "like":
+      display = (
+        <>
+          {likes} <BiLike />
+        </>
+      );
+      break;
+    case "unlike":
+      display = <BiDislike />;
+      break;
+    case "retweet":
+      display = <FaRetweet />;
+      break;
+  }
 
   const handleActionBackendEvent = (response, status) => {
-    console.log(response, status);
     if ((status === 200 || status === 201) && didPerformAction) {
-      console.log("clicked button");
       didPerformAction(response, status);
     }
   };
@@ -19,7 +34,9 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   };
   return (
     <button className={className} onClick={() => handleClick()}>
-      {display}
+      <IconContext.Provider value={{ size: 20 }}>
+        {display}
+      </IconContext.Provider>
     </button>
   );
 };

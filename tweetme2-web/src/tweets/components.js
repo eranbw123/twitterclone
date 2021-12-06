@@ -4,32 +4,38 @@ import { TweetList } from "./list";
 import { TweetCreate } from "./create";
 import { apiTweetDetail } from "./lookup";
 import { Tweet } from "./detail";
+import { apiTweetList } from "./lookup";
 
 export const TweetsComponent = (props) => {
   const { username } = useParams();
-  const [newTweets, setNewTweets] = useState([]);
+  const [tweets, setTweets] = useState([]);
 
-  const handleNewTweet = (newTweet) => {
-    let tempNewTweets = [...newTweets];
-    tempNewTweets.unshift(newTweet);
-    setNewTweets(tempNewTweets);
+  const updateTweets = () => {
+    const handleTweetListLookup = (response, status) => {
+      if (status === 200) {
+        setTweets(response);
+      }
+    };
+    apiTweetList(username, handleTweetListLookup);
   };
-
+  useEffect(() => {
+    updateTweets();
+  }, []);
   return (
     <>
-      <TweetCreate didTweet={handleNewTweet} />
-      <TweetList newTweets={newTweets} username={username} />
+      <TweetCreate updateTweets={updateTweets} />
+      <TweetList updateTweets={updateTweets} tweets={tweets} />
     </>
   );
 };
 
 export const TweetDetailComponent = (props) => {
   const { tweetId } = useParams();
-  // const [didLookup, setDidLookup] = useState(false);
   const [tweet, setTweet] = useState(null);
 
   const handleBackendLookup = (response, status) => {
     if (status === 200) {
+      console.log(response, status);
       setTweet(response);
     } else {
       alert("there was an error finding your tweet");
@@ -37,13 +43,8 @@ export const TweetDetailComponent = (props) => {
   };
 
   useEffect(() => {
-    // if (didLookup === true) {
     apiTweetDetail(tweetId, handleBackendLookup);
-    // setDidLookup(true);
-    // }
   }, [tweetId]);
 
-  return tweet === null ? null : (
-    <Tweet tweet={tweet} className={props.className} />
-  );
+  return tweet === null ? null : <Tweet className={props.className} />;
 };

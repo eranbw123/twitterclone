@@ -1,13 +1,15 @@
 import React, { createRef } from "react";
 import { apiTweetCreate } from "./lookup";
+import { Button, InputGroup, FormControl } from "react-bootstrap";
+import { BiSend } from "react-icons/bi";
+import { IconContext } from "react-icons";
 
-export const TweetCreate = (props) => {
+export const TweetCreate = ({ className, updateTweets }) => {
   const textAreaRef = createRef();
-  const { didTweet } = props;
 
   const handleBackendUpdate = (response, status) => {
     if (status === 201) {
-      didTweet(response);
+      updateTweets(response);
     } else {
       console.log(response);
       alert("An error occured please try again");
@@ -15,28 +17,35 @@ export const TweetCreate = (props) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(1);
     const newVal = textAreaRef.current.value;
     apiTweetCreate(newVal, handleBackendUpdate);
     textAreaRef.current.value = "";
   };
   return (
-    <div className={props.className}>
-      <div className="col-md-4 mx-auto col-10">
-        <div className="row text-center">
-          <h1>Welcome to Tweetme2</h1>
+    <>
+      {localStorage.getItem("token") && (
+        <div className={className}>
+          <div className="col-md-8 mb-5 mx-auto col-10">
+            <InputGroup className="mb-3">
+              <Button
+                variant="outline-secondary"
+                id="button-addon1"
+                onClick={handleSubmit}
+              >
+                <IconContext.Provider value={{ size: 20 }}>
+                  <BiSend />
+                </IconContext.Provider>
+              </Button>
+              <FormControl
+                ref={textAreaRef}
+                aria-label="Example text with button addon"
+                aria-describedby="basic-addon1"
+              />
+            </InputGroup>
+          </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <textarea
-            ref={textAreaRef}
-            required={true}
-            className="form-control"
-            placeholder="Your Tweet"
-          ></textarea>
-          <button type="submit" className="btn btn-primary mb-3">
-            Tweet
-          </button>
-        </form>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

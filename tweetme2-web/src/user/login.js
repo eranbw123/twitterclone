@@ -36,7 +36,7 @@ export const Login = (props) => {
   return (
     <>
       {!localStorage.getItem("token") ? (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className="col-12 col-md-8 mx-auto">
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control
@@ -54,7 +54,7 @@ export const Login = (props) => {
               placeholder="Password"
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="mb-3">
             Submit
           </Button>
         </Form>

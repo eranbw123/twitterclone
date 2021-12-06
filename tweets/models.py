@@ -1,10 +1,5 @@
 from django.db import models
-import random
-
-# from django.conf import settings
 from django.contrib.auth.models import User
-
-# User = settings.AUTH_USER_MODEL
 
 # intermediate table to store extra data, used with through
 class TweetLike(models.Model):
