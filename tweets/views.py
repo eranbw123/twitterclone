@@ -1,12 +1,8 @@
-import random
 from django.conf import settings
-from django.contrib import auth
-from django.http.response import Http404
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.utils.http import is_safe_url
 
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import (
     api_view,
