@@ -56,6 +56,7 @@ export const RegistrationForm = (props) => {
               ref={refUsername}
               type="text"
               placeholder="Enter username"
+              required={true}
             />
           </Form.Group>
 
@@ -65,6 +66,7 @@ export const RegistrationForm = (props) => {
               ref={refPassword}
               type="password"
               placeholder="Password"
+              required={true}
             />
           </Form.Group>
           <Button variant="primary" type="submit">
