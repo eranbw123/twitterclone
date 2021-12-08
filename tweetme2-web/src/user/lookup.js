@@ -1,7 +1,7 @@
 import { backendLookup } from "../lookup";
 
-export const apiRegister = (username, email, password, callback) => {
-  const data = { username: username, email: email, password: password };
+export const apiRegister = (username, password, callback) => {
+  const data = { username: username, password: password };
   backendLookup("POST", "/auth/users/", callback, data);
 };
 
@@ -11,5 +11,21 @@ export const apiLogin = (username, password, callback) => {
 };
 
 export const apiUserDetail = (callback) => {
-  backendLookup("GET", "/auth/users/me/", callback);
+  backendLookup("GET", "/profile/", callback);
+};
+
+export const apiUserUpdate = (
+  location,
+  bio,
+  email,
+  firstName,
+  lastName,
+  callback
+) => {
+  const data = {
+    location: location,
+    bio: bio,
+    user: { email: email, first_name: firstName, last_name: lastName },
+  };
+  backendLookup("POST", "/profile/", callback, data);
 };

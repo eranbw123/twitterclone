@@ -1,10 +1,11 @@
 import React, { createRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { apiRegister } from "./lookup";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const RegistrationForm = (props) => {
   const refUsername = createRef();
-  const refEmail = createRef();
   const refPassword = createRef();
 
   const handleUserRegister = (response, status) => {
@@ -12,17 +13,37 @@ export const RegistrationForm = (props) => {
     if (status === 201) {
       window.location.href = "/login";
     } else {
-      alert("there was an error while trying to register the user");
+      console.log(response);
+      var errorMessages = "";
+      for (var key in response) {
+        var value = response[key];
+        const error =
+          key.charAt(0).toUpperCase() + key.slice(1) + " - " + value[0];
+        errorMessages = errorMessages + error + "<br/>";
+      }
+
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        didOpen: () => {
+          MySwal.clickConfirm();
+        },
+      }).then(() => {
+        return MySwal.fire({
+          icon: "error",
+          title: "Validation Error",
+          html: errorMessages,
+          confirmButtonColor: "#1c1c1b",
+        });
+      });
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const username = refUsername.current.value;
-    const email = refEmail.current.value;
     const password = refPassword.current.value;
-    console.log(username, email, password);
-    apiRegister(username, email, password, handleUserRegister);
+    console.log(username, password);
+    apiRegister(username, password, handleUserRegister);
   };
 
   return (
@@ -38,15 +59,6 @@ export const RegistrationForm = (props) => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              ref={refEmail}
-              type="email"
-              placeholder="Enter email"
-            />
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -56,7 +68,7 @@ export const RegistrationForm = (props) => {
             />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Submit
+            Register
           </Button>
         </Form>
       ) : (

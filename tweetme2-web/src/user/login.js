@@ -2,6 +2,8 @@ import React, { createRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import { apiLogin } from ".";
 import { apiUserDetail } from ".";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const Login = (props) => {
   const refUsername = createRef();
@@ -10,8 +12,7 @@ export const Login = (props) => {
   const handleLogin = (response, status) => {
     const handleUserDetails = (response, status) => {
       if (status === 200) {
-        localStorage.setItem("username", response.username);
-        localStorage.setItem("email", response.email);
+        localStorage.setItem("username", response.user.username);
         window.location.href = "/";
       }
     };
@@ -21,7 +22,19 @@ export const Login = (props) => {
       localStorage.setItem("token", auth_token);
       apiUserDetail(handleUserDetails);
     } else {
-      alert("there was an error while trying to log in");
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        didOpen: () => {
+          MySwal.clickConfirm();
+        },
+      }).then(() => {
+        return MySwal.fire({
+          icon: "error",
+          title: "Validation Error",
+          html: "Invalid username or password",
+          confirmButtonColor: "#1c1c1b",
+        });
+      });
     }
   };
 
@@ -43,6 +56,7 @@ export const Login = (props) => {
               ref={refUsername}
               type="text"
               placeholder="Enter username"
+              required={true}
             />
           </Form.Group>
 
@@ -52,10 +66,11 @@ export const Login = (props) => {
               ref={refPassword}
               type="password"
               placeholder="Password"
+              required={true}
             />
           </Form.Group>
           <Button variant="primary" type="submit" className="mb-3">
-            Submit
+            Log In
           </Button>
         </Form>
       ) : (

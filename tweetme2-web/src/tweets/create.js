@@ -41,6 +41,7 @@ export const TweetCreate = ({ className, updateTweets }) => {
                 ref={textAreaRef}
                 aria-label="Example text with button addon"
                 aria-describedby="basic-addon1"
+                required={true}
               />
             </InputGroup>
           </div>
