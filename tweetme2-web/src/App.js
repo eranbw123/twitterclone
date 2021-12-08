@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
+import "./css/App.css";
 import { TweetsComponent, TweetDetailComponent } from "./tweets";
 import { MainNavbar } from "./home/navbar";
 import { RegistrationForm, Login, UpdateProfile, Profile } from "./user";

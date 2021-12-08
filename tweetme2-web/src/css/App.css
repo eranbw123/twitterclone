@@ -1,0 +1,32 @@
+.profile-card {
+  align-items: left;
+  width: fit-content;
+  margin-left: 16.5vw;
+  margin-right: 16.5vw;
+  margin-bottom: 10px;
+}
+.tweet {
+  margin-left: 16.5vw;
+  margin-right: 16.5vw;
+  border: 5px solid gray;
+  padding-block: 10px;
+}
+.navbar-container {
+  /* padding-inline: 16.5vw; */
+  margin-inline: 13.5vw !important;
+  /* padding: 0 0 0 0 !important; */
+}
+
+/* width: auto; */
+/* display: flex; */
+/* justify-content: center; */
+/* align-items: left; */
+/* width: fit-content; */
+/* padding-left: 40px; */
+/* padding-block: 20px; */
+/* margin-bottom: 40px; */
+/* margin-left: auto; */
+/* margin-right: auto; */
+/* margin-block: 20px; */
+/* margin-left: 16.5vw; */
+/* margin-right: 67vw; */

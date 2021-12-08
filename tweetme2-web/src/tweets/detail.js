@@ -21,9 +21,7 @@ export const Tweet = (props) => {
   const [actionTweet, setActionTweet] = useState(
     props.tweet ? props.tweet : null
   );
-  const className = props.className
-    ? props.className
-    : "col-12 col-md-8 mx-auto border rounded py-3 container-fluid ";
+  const className = props.className ? props.className : "tweet border";
   const { id, content, username } = props.tweet;
 
   const handlePerformAction = (newActionTweet, status) => {
@@ -67,10 +65,7 @@ export const Tweet = (props) => {
             }
           };
           apiTweetDelete(id, handleTweetDelete);
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
       });
   };
@@ -98,7 +93,7 @@ export const Tweet = (props) => {
           to={`/tweet/${id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
-          <p className="mt-2 container-fluid ">{content}</p>
+          <p className="container-fluid ">{content}</p>
         </Link>
         <ParentTweet tweet={props.tweet} />
       </div>

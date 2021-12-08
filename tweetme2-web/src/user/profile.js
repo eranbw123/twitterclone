@@ -25,7 +25,7 @@ export const Profile = (props) => {
 
   return (
     <>
-      <Card className=" g">
+      <Card className="profile-card">
         <Card.Body>
           <Card.Title>{`@${username}`}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{`Name - ${firstName} ${lastName}`}</Card.Subtitle>
