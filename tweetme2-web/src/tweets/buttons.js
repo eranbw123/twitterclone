@@ -1,5 +1,5 @@
 import React from "react";
-import { apiTweetAction } from "./lookup";
+import { apiTweetAction } from ".";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
 import { IconContext } from "react-icons";

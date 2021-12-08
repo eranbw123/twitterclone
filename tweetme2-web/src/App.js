@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { TweetsComponent, TweetDetailComponent } from "./tweets";
 import { MainNavbar } from "./home/navbar";
-import { RegistrationForm, Login, Profile } from "./user";
+import { RegistrationForm, Login, UpdateProfile, Profile } from "./user";
 
 const App = () => {
   return (
@@ -13,8 +13,8 @@ const App = () => {
         <Route exact path="/" element={<TweetsComponent />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/tweets/:username" element={<TweetsComponent />} />
+        <Route path="/profile" element={<UpdateProfile />} />
+        <Route path="/profile/:username" element={<Profile />} />
         <Route path="/tweet/:tweetId" element={<TweetDetailComponent />} />
       </Routes>
     </Router>

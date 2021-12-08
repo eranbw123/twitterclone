@@ -17,13 +17,21 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileGeneralSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ["username", "location", "bio"]
+        fields = ["username", "first_name", "last_name", "location", "bio"]
 
     def get_username(self, obj):
         return obj.user.username
+
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
 
 
 class ProfileSerializer(serializers.ModelSerializer):

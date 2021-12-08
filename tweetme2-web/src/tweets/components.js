@@ -4,9 +4,9 @@ import { TweetList } from "./list";
 import { TweetCreate } from "./create";
 import { apiTweetDetail } from "./lookup";
 import { Tweet } from "./detail";
-import { apiTweetList } from "./lookup";
+import { apiTweetList } from ".";
 
-export const TweetsComponent = (props) => {
+export const TweetsComponent = ({ hideCreate }) => {
   const { username } = useParams();
   const [tweets, setTweets] = useState([]);
 
@@ -19,10 +19,10 @@ export const TweetsComponent = (props) => {
     apiTweetList(username, handleTweetListLookup);
   };
 
-  useEffect(updateTweets, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(updateTweets, [username]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
-      <TweetCreate updateTweets={updateTweets} />
+      {!hideCreate && <TweetCreate updateTweets={updateTweets} />}
       <TweetList updateTweets={updateTweets} tweets={tweets} />
     </>
   );

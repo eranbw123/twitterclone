@@ -26,7 +26,7 @@ export const MainNavbar = (props) => {
 
           {localStorage.getItem("token") && (
             <Nav className="ms-auto">
-              <Nav.Link href="/profile">
+              <Nav.Link href={`/profile/${localStorage.getItem("username")}`}>
                 {localStorage.getItem("username")}
               </Nav.Link>
               <Nav.Link href="/" onClick={handleLogout}>

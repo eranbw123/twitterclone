@@ -10,6 +10,10 @@ export const apiLogin = (username, password, callback) => {
   backendLookup("POST", "/auth/token/login/", callback, data);
 };
 
+export const apiUserDetailGeneral = (username, callback) => {
+  backendLookup("GET", `/profile/general/${username}/`, callback);
+};
+
 export const apiUserDetail = (callback) => {
   backendLookup("GET", "/profile/", callback);
 };

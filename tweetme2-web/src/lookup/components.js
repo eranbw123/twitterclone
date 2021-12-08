@@ -23,5 +23,6 @@ export const backendLookup = async (method, endpoint, callback, data) => {
       window.location.href = "/login?showLoginRequired=true";
     }
   }
+  console.log("response ", serverResponse, " status ", response.status);
   callback(serverResponse, response.status);
 };

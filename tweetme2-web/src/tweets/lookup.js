@@ -4,6 +4,10 @@ export const apiTweetCreate = (newTweet, callback) => {
   backendLookup("POST", "/tweets/create/", callback, { content: newTweet });
 };
 
+export const apiTweetDelete = (tweetId, callback) => {
+  backendLookup("POST", `/tweets/${tweetId}/delete/`, callback);
+};
+
 export const apiTweetAction = (tweetId, action, callback) => {
   const data = { id: tweetId, action: action };
   backendLookup("POST", "/tweets/action/", callback, data);

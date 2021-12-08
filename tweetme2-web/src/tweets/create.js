@@ -1,5 +1,5 @@
 import React, { createRef } from "react";
-import { apiTweetCreate } from "./lookup";
+import { apiTweetCreate } from ".";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
 import { BiSend } from "react-icons/bi";
 import { IconContext } from "react-icons";
@@ -17,7 +17,6 @@ export const TweetCreate = ({ className, updateTweets }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(1);
     const newVal = textAreaRef.current.value;
     apiTweetCreate(newVal, handleBackendUpdate);
     textAreaRef.current.value = "";
