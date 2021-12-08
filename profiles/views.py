@@ -26,6 +26,7 @@ def profile_detail_update_view(request, *args, **kwargs):
         return Response(serializer.data or None, status=200)
     if request.method == "POST":
         serializer = ProfileSerializer(request.user.profile, data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data or None, status=200)

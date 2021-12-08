@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from "react";
-import { Form, Row, Button, Col, ListGroup } from "react-bootstrap";
+import { Form, Row, Button, Col } from "react-bootstrap";
 import { apiUserDetail, apiUserUpdate } from ".";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -12,6 +12,7 @@ export const UpdateProfile = (props) => {
   const [lastName, setLastName] = useState("");
   const refBio = createRef();
   const refLocation = createRef();
+  const refUsername = createRef();
   const refEmail = createRef();
   const refFirstName = createRef();
   const refLastName = createRef();
@@ -32,6 +33,8 @@ export const UpdateProfile = (props) => {
 
   const handleBackendUpdate = (response, status) => {
     if (status === 200) {
+      localStorage.setItem("username", response.user.username);
+      window.location.reload(false);
     } else {
       var errorMessages = "";
       for (var key in response) {
@@ -66,6 +69,7 @@ export const UpdateProfile = (props) => {
     apiUserUpdate(
       refLocation.current.value,
       refBio.current.value,
+      refUsername.current.value,
       refEmail.current.value,
       refFirstName.current.value,
       refLastName.current.value,
@@ -75,11 +79,13 @@ export const UpdateProfile = (props) => {
 
   return (
     <Form className="col-12 col-md-8 mx-auto" onSubmit={handleSubmit}>
-      <Form.Group as={Col}>
-        <Form.Label className="mb-3">Username</Form.Label>
-      </Form.Group>
       <Form.Group as={Col} className="mb-3">
-        <ListGroup.Item>{localStorage.getItem("username")}</ListGroup.Item>
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          ref={refUsername}
+          placeholder="Username"
+          defaultValue={localStorage.getItem("username")}
+        />
       </Form.Group>
 
       <Form.Group as={Col} className="mb-3">

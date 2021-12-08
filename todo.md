@@ -10,6 +10,7 @@
    - show button without outline if retweeted already
      -> Liking - exists,
    - show list of all useres that liked the tweet
+   - if not logged in show message/ redirect to login page
 2. Users
    -> Register
 

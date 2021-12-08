@@ -21,6 +21,7 @@ export const apiUserDetail = (callback) => {
 export const apiUserUpdate = (
   location,
   bio,
+  username,
   email,
   firstName,
   lastName,
@@ -29,7 +30,14 @@ export const apiUserUpdate = (
   const data = {
     location: location,
     bio: bio,
-    user: { email: email, first_name: firstName, last_name: lastName },
+    user: {
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+    },
   };
+  if (localStorage.getItem("username") !== username) {
+    data.user.username = username;
+  }
   backendLookup("POST", "/profile/", callback, data);
 };

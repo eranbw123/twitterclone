@@ -30,7 +30,12 @@ export const Profile = (props) => {
           <Card.Title>{`@${username}`}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{`Name - ${firstName} ${lastName}`}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted">{`Location - ${location}`}</Card.Subtitle>
-          <Card.Text>{`Bio - ${bio}`}</Card.Text>
+          <Card.Text>
+            <span style={{ fontWeight: "500", paddingRight: "5px" }}>
+              Bio -
+            </span>
+            <span style={{}}>{bio}</span>
+          </Card.Text>
           {localStorage.getItem("username") === username && (
             <Button variant="secondary" href="/profile">
               Edit

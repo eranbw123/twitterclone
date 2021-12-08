@@ -4,11 +4,10 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
-
     class Meta:
         model = User
         fields = ["username", "email", "first_name", "last_name"]
+        extra_kwargs = {"username": {"required": False}}
 
     def get_username(self, obj):
         return obj.username
