@@ -18,9 +18,9 @@ class Profile(models.Model):
     update = models.DateTimeField(auto_now=True)
 
 
-def user_did_save(sender, instance, created, *args, **kwargs):
-    if created:
-        Profile.objects.get_or_create(user=instance)
+# def user_did_save(sender, instance, created, *args, **kwargs):
+#     if created:
+#         Profile.objects.get_or_create(user=instance)
 
 
-post_save.connect(user_did_save, sender=User)
+# post_save.connect(user_did_save, sender=User)

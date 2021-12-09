@@ -8,6 +8,18 @@ from .serializers import ProfileGeneralSerializer, ProfileSerializer
 from .models import Profile
 
 
+@api_view(["POST"])
+def profile_create_view(request, *args, **kwargs):
+    if request.method == "POST":
+        serializer = ProfileSerializer(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data or None, status=200)
+        else:
+            return Response(serializer.errors or None, status=400)
+
+
 @api_view(["GET"])
 def profile_detail_general_view(request, username, *args, **kwargs):
     qs = Profile.objects.filter(user__username__iexact=username)

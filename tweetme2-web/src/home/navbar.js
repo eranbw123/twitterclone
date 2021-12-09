@@ -20,7 +20,7 @@ export const MainNavbar = (props) => {
               <BsTwitter />
             </IconContext.Provider>
           </Navbar.Brand>
-          <Nav>
+          <Nav className="me-auto">
             <Nav.Link href="/">Tweets</Nav.Link>
           </Nav>
 

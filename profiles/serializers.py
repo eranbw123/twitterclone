@@ -1,13 +1,22 @@
 from rest_framework import serializers
 from .models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+
+
+# def even_number(value):
+#     if value == "123":
+#         raise serializers.ValidationError("password is weak")
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name"]
-        extra_kwargs = {"username": {"required": False}}
+        fields = ["username", "email", "first_name", "last_name", "password"]
+        extra_kwargs = {
+            "username": {"required": False},
+            "password": {"required": False, "validators": [validate_password]},
+        }
 
     def get_username(self, obj):
         return obj.username
@@ -53,4 +62,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         instance.bio = validated_data.get("bio", instance.bio)
         instance.save()
 
-        return instance
+    def create(self, validated_data):
+        user_data = validated_data.pop("user")
+        user = User()
+        user.first_name = user_data.get("first_name")
+        user.last_name = user_data.get("last_name")
+        user.username = user_data.get("username")
+        user.email = user_data.get("email")
+        user.password = user_data.get("password")
+        user.save()
+
+        profile = Profile()
+        profile.location = validated_data.get("location")
+        profile.bio = validated_data.get("bio")
+        profile.user = user
+        profile.save()
+
+        return profile

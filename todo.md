@@ -11,6 +11,7 @@
      -> Liking - exists,
    - show list of all useres that liked the tweet
    - if not logged in show message/ redirect to login page
+     -> more efficient queries
 2. Users
    -> Register
 
