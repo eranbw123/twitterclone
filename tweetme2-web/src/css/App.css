@@ -1,18 +1,20 @@
 .profile-card {
   align-items: left;
   width: fit-content;
-  margin-left: 16.5vw;
-  margin-right: 16.5vw;
-  margin-bottom: 10px;
+  margin-inline: 35vw;
+  margin-bottom: 20px;
 }
 .tweet {
-  margin-left: 16.5vw;
-  margin-right: 16.5vw;
+  margin-inline: 35vw;
   border: 5px solid gray;
   padding-block: 10px;
 }
+.create {
+  margin-inline: 35vw;
+  padding-block: 10px;
+}
 .navbar-container {
-  margin-inline: 13.5vw !important;
+  margin-inline: 33.5vw !important;
 }
 .form {
   width: 30%;
@@ -56,16 +58,3 @@
 .tooltip1:hover .tooltiptext {
   visibility: visible;
 }
-/* width: auto; */
-/* display: flex; */
-/* justify-content: center; */
-/* align-items: left; */
-/* width: fit-content; */
-/* padding-left: 40px; */
-/* padding-block: 20px; */
-/* margin-bottom: 40px; */
-/* margin-left: auto; */
-/* margin-right: auto; */
-/* margin-block: 20px; */
-/* margin-left: 16.5vw; */
-/* margin-right: 67vw; */

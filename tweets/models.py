@@ -16,7 +16,7 @@ class Tweet(models.Model):
     likes = models.ManyToManyField(
         User, related_name="tweet_user", blank=True, through=TweetLike
     )  # many users can like this tweet
-    content = models.TextField(blank=True, null=True)
+    content = models.TextField(blank=True, null=True, max_length=150)
     image = models.FileField(upload_to="image/", blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 

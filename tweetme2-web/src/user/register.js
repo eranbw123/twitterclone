@@ -7,11 +7,6 @@ import withReactContent from "sweetalert2-react-content";
 export const RegistrationForm = (props) => {
   const refUsername = createRef();
   const refPassword = createRef();
-  // const [bio, setBio] = useState("");
-  // const [location, setLocation] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
   const refBio = createRef();
   const refLocation = createRef();
   const refEmail = createRef();
@@ -37,11 +32,11 @@ export const RegistrationForm = (props) => {
             }
           }
         } else {
-          for (var key2 in value) {
-            var value1 = value[key2];
-            var error =
-              key.charAt(0).toUpperCase() + key.slice(1) + " - " + value1;
-            errorMessages = errorMessages + error + "<br/>";
+          for (var keyA in value) {
+            var valueA = value[keyA];
+            var errorA =
+              key.charAt(0).toUpperCase() + key.slice(1) + " - " + valueA;
+            errorMessages = errorMessages + errorA + "<br/>";
           }
         }
       }
@@ -140,7 +135,6 @@ export const RegistrationForm = (props) => {
           >
             <Form.Control
               as="textarea"
-              placeholder="Leave a comment here"
               style={{ height: "100px" }}
               ref={refBio}
               placeholder="Bio"
