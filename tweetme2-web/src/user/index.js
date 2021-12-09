@@ -1,6 +1,6 @@
 import { Login } from "./login";
 import {
-  apiRegister,
+  apiUserCreate,
   apiLogin,
   apiUserDetailGeneral,
   apiUserDetail,
@@ -12,7 +12,7 @@ import { Profile } from "./profile";
 
 export {
   Login,
-  apiRegister,
+  apiUserCreate,
   RegistrationForm,
   apiLogin,
   apiUserDetailGeneral,

@@ -49,7 +49,7 @@ export const Login = (props) => {
   return (
     <>
       {!localStorage.getItem("token") ? (
-        <Form onSubmit={handleSubmit} className="col-12 col-md-8 mx-auto">
+        <Form onSubmit={handleSubmit} className="form">
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control

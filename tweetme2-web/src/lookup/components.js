@@ -11,6 +11,8 @@ export const backendLookup = async (method, endpoint, callback, data) => {
     headers.Authorization = `Token ${auth_token}`;
   }
   const url = `http://127.0.0.1:8000/api${endpoint}`;
+  console.log(url);
+  console.log(jsonData);
   const response = await fetch(url, {
     headers: headers,
     method: method,

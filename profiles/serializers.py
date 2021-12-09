@@ -2,11 +2,7 @@ from rest_framework import serializers
 from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-
-
-# def even_number(value):
-#     if value == "123":
-#         raise serializers.ValidationError("password is weak")
+from django.contrib.auth.hashers import make_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -62,6 +58,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         instance.bio = validated_data.get("bio", instance.bio)
         instance.save()
 
+        return instance
+
     def create(self, validated_data):
         user_data = validated_data.pop("user")
         user = User()
@@ -69,7 +67,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         user.last_name = user_data.get("last_name")
         user.username = user_data.get("username")
         user.email = user_data.get("email")
-        user.password = user_data.get("password")
+        user.password = make_password(user_data.get("password"))
         user.save()
 
         profile = Profile()

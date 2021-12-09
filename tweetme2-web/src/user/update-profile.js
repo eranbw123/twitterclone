@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from "react";
-import { Form, Row, Button, Col } from "react-bootstrap";
+import { Form, Row, Button, Col, FloatingLabel } from "react-bootstrap";
 import { apiUserDetail, apiUserUpdate } from ".";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -39,13 +39,23 @@ export const UpdateProfile = (props) => {
       var errorMessages = "";
       for (var key in response) {
         var value = response[key];
-        for (var key2 in value) {
-          const error =
-            key2.charAt(0).toUpperCase() +
-            key2.slice(1) +
-            " - " +
-            value[key2][0];
-          errorMessages = errorMessages + error + "<br/>";
+        if (typeof value[0] !== "string") {
+          for (var key2 in value) {
+            var value1 = value[key2];
+            for (var key3 in value1) {
+              var value2 = value1[key3];
+              var error =
+                key2.charAt(0).toUpperCase() + key2.slice(1) + " - " + value2;
+              errorMessages = errorMessages + error + "<br/>";
+            }
+          }
+        } else {
+          for (var key2 in value) {
+            var value1 = value[key2];
+            var error =
+              key.charAt(0).toUpperCase() + key.slice(1) + " - " + value1;
+            errorMessages = errorMessages + error + "<br/>";
+          }
         }
       }
       const MySwal = withReactContent(Swal);
@@ -78,7 +88,7 @@ export const UpdateProfile = (props) => {
   };
 
   return (
-    <Form className="col-12 col-md-8 mx-auto" onSubmit={handleSubmit}>
+    <Form className="form" onSubmit={handleSubmit}>
       <Form.Group as={Col} className="mb-3">
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -119,11 +129,6 @@ export const UpdateProfile = (props) => {
       </Row>
       <Row className=" mb-3">
         <Form.Group as={Col}>
-          <Form.Label>Bio</Form.Label>
-          <Form.Control ref={refBio} placeholder="Bio" defaultValue={bio} />
-        </Form.Group>
-
-        <Form.Group as={Col}>
           <Form.Label>Location</Form.Label>
           <Form.Control
             ref={refLocation}
@@ -132,6 +137,20 @@ export const UpdateProfile = (props) => {
           />
         </Form.Group>
       </Row>
+      <FloatingLabel
+        controlId="floatingTextarea2"
+        label="Bio"
+        className=" mb-3"
+      >
+        <Form.Control
+          as="textarea"
+          placeholder="Leave a comment here"
+          style={{ height: "100px" }}
+          ref={refBio}
+          placeholder="Bio"
+          defaultValue={bio}
+        />
+      </FloatingLabel>
 
       <Button variant="primary" type="submit">
         Update
