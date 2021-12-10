@@ -1,3 +1,4 @@
+from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -7,12 +8,18 @@ class TweetLike(models.Model):
     tweet = models.ForeignKey("Tweet", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ["-timestamp"]
+
 
 class TweetComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tweet = models.ForeignKey("Tweet", on_delete=models.CASCADE)
     content = models.TextField(blank=True, null=True, max_length=150)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-timestamp"]
 
 
 class Tweet(models.Model):

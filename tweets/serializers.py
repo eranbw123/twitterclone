@@ -12,7 +12,7 @@ class TweetCommentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TweetComment
-        fields = ["timestamp", "content", "user"]
+        fields = ["timestamp", "content", "user", "id"]
 
 
 class TweetLikesSerializer(serializers.ModelSerializer):
@@ -27,6 +27,7 @@ class TweetActionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     action = serializers.CharField()
     content = serializers.CharField(allow_blank=True, required=False)
+    comment_id = serializers.CharField(allow_blank=True, required=False)
 
     def validate_action(self, value):
         value = value.lower().strip()

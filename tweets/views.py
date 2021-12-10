@@ -7,7 +7,7 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Tweet
+from .models import Tweet, TweetComment
 from .serializers import (
     TweetSerializer,
     TweetActionSerializer,
@@ -65,6 +65,8 @@ def tweet_action_view(request, *args, **kwargs):
         tweet_id = data.get("id")
         action = data.get("action")
         content = data.get("content")
+        comment_id = data.get("comment_id")
+        print(data)
     qs = Tweet.objects.filter(id=tweet_id)
     if not qs.exists():
         return Response({}, status=404)
@@ -81,6 +83,23 @@ def tweet_action_view(request, *args, **kwargs):
         new_tweet = Tweet.objects.create(user=request.user, parent=obj, content=content)
         serializer = TweetSerializer(new_tweet)
         return Response(serializer.data, status=201)
+    elif action == "comment":
+        new_comment = TweetComment(user=request.user, tweet=obj, content=content)
+        new_comment.save()
+        serializer = TweetDetailSerializer(obj)
+        return Response(serializer.data, status=201)
+    elif action == "delete_comment":
+        comments = TweetComment.objects.filter(tweet_id=tweet_id)
+        print(comment_id)
+        comment = comments.filter(id=comment_id)
+        print(comments)
+        print(comment)
+        if comment:
+            comment.delete()
+            serializer = TweetDetailSerializer(obj)
+            return Response(serializer.data, status=201)
+        else:
+            return Response({"comment does not exist"}, status=404)
     return Response({}, status=200)
 
 

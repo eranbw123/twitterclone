@@ -134,7 +134,7 @@ LOGIN_URL = "/login"
 # constants
 MAX_TWEET_LENGTH = 240
 
-TWEET_ACTION_OPTION = ["like", "unlike", "retweet"]
+TWEET_ACTION_OPTION = ["like", "unlike", "retweet", "comment", "delete_comment"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/.*$"
