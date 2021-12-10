@@ -8,8 +8,20 @@ export const apiTweetDelete = (tweetId, callback) => {
   backendLookup("POST", `/tweets/${tweetId}/delete/`, callback);
 };
 
-export const apiTweetAction = (tweetId, action, callback) => {
+export const apiTweetAction = (
+  tweetId,
+  action,
+  commentId,
+  content,
+  callback
+) => {
   const data = { id: tweetId, action: action };
+  if (commentId) {
+    data.comment_id = commentId;
+  }
+  if (content) {
+    data.content = content;
+  }
   console.log(data);
   backendLookup("POST", "/tweets/action/", callback, data);
 };

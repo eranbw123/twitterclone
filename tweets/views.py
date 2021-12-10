@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Tweet, TweetComment
 from .serializers import (
+    MAX_TWEET_LENGTH,
     TweetSerializer,
     TweetActionSerializer,
     TweetCreateSerializer,
@@ -80,9 +81,17 @@ def tweet_action_view(request, *args, **kwargs):
         serializer = TweetSerializer(obj)
         return Response(serializer.data, status=200)
     elif action == "retweet":
-        new_tweet = Tweet.objects.create(user=request.user, parent=obj, content=content)
-        serializer = TweetSerializer(new_tweet)
-        return Response(serializer.data, status=201)
+        if len(content) < MAX_TWEET_LENGTH:
+            new_tweet = Tweet.objects.create(
+                user=request.user, parent=obj, content=content
+            )
+            serializer = TweetSerializer(user=request.user, parent=obj, content=content)
+            return Response(serializer.data, status=201)
+        else:
+            return Response(
+                {"Content": "Ensure this field has no more than 150 characters."},
+                status=400,
+            )
     elif action == "comment":
         new_comment = TweetComment(user=request.user, tweet=obj, content=content)
         new_comment.save()
@@ -90,10 +99,7 @@ def tweet_action_view(request, *args, **kwargs):
         return Response(serializer.data, status=201)
     elif action == "delete_comment":
         comments = TweetComment.objects.filter(tweet_id=tweet_id)
-        print(comment_id)
         comment = comments.filter(id=comment_id)
-        print(comments)
-        print(comment)
         if comment:
             comment.delete()
             serializer = TweetDetailSerializer(obj)
