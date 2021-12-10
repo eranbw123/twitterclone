@@ -8,6 +8,13 @@ class TweetLike(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
+class TweetComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tweet = models.ForeignKey("Tweet", on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True, max_length=150)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
 class Tweet(models.Model):
     # blank = required in django, null = required in the DataBase
     parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
@@ -16,6 +23,9 @@ class Tweet(models.Model):
     likes = models.ManyToManyField(
         User, related_name="tweet_user", blank=True, through=TweetLike
     )  # many users can like this tweet
+    comments = models.ManyToManyField(
+        User, related_name="tweet_comments", blank=True, through=TweetComment
+    )
     content = models.TextField(blank=True, null=True, max_length=150)
     image = models.FileField(upload_to="image/", blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)

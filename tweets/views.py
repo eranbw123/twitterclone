@@ -7,12 +7,12 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from .forms import TweetForm
 from .models import Tweet
 from .serializers import (
     TweetSerializer,
     TweetActionSerializer,
     TweetCreateSerializer,
+    TweetDetailSerializer,
 )
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
@@ -34,7 +34,7 @@ def tweet_detail_view(request, tweet_id, *args, **kwargs):
     if not qs.exists():
         return Response({}, status=404)
     obj = qs.first()
-    serializer = TweetSerializer(obj)
+    serializer = TweetDetailSerializer(obj)
     return Response(serializer.data, status=200)
 
 

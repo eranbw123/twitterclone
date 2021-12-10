@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "email", "first_name", "last_name", "password"]
@@ -37,8 +37,21 @@ class ProfileGeneralSerializer(serializers.ModelSerializer):
         return obj.user.last_name
 
 
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name", "password"]
+        extra_kwargs = {
+            "username": {"required": False},
+            "password": {"required": False, "validators": [validate_password]},
+        }
+
+    def get_username(self, obj):
+        return obj.username
+
+
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=False)
+    user = UserCreateSerializer(required=False)
 
     class Meta:
         model = Profile
@@ -77,3 +90,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         profile.save()
 
         return profile
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username"]

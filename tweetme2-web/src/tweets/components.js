@@ -45,8 +45,6 @@ export const TweetDetailComponent = (props) => {
   }, [tweetId]);
 
   return tweet === null ? null : (
-    <>
-      <Tweet tweet={tweet} className={props.className} />
-    </>
+    <>{/* <Tweet tweet={tweet} className={props.className} /> */}</>
   );
 };

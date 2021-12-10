@@ -50,11 +50,11 @@ export const UpdateProfile = (props) => {
             }
           }
         } else {
-          for (var key2 in value) {
-            var value1 = value[key2];
-            var error =
-              key.charAt(0).toUpperCase() + key.slice(1) + " - " + value1;
-            errorMessages = errorMessages + error + "<br/>";
+          for (var keyA in value) {
+            var valueA = value[keyA];
+            var errorA =
+              key.charAt(0).toUpperCase() + key.slice(1) + " - " + valueA;
+            errorMessages = errorMessages + errorA + "<br/>";
           }
         }
       }
@@ -144,7 +144,6 @@ export const UpdateProfile = (props) => {
       >
         <Form.Control
           as="textarea"
-          placeholder="Leave a comment here"
           style={{ height: "100px" }}
           ref={refBio}
           placeholder="Bio"

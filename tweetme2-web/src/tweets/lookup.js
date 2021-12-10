@@ -10,6 +10,7 @@ export const apiTweetDelete = (tweetId, callback) => {
 
 export const apiTweetAction = (tweetId, action, callback) => {
   const data = { id: tweetId, action: action };
+  console.log(data);
   backendLookup("POST", "/tweets/action/", callback, data);
 };
 

@@ -1,9 +1,26 @@
 from rest_framework import serializers
 from django.conf import settings
-from .models import Tweet
+from .models import Tweet, TweetComment, TweetLike
+from profiles.serializers import UserSerializer
 
 MAX_TWEET_LENGTH = settings.MAX_TWEET_LENGTH
 TWEET_ACTION_OPTION = settings.TWEET_ACTION_OPTION
+
+
+class TweetCommentsSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = TweetComment
+        fields = ["timestamp", "content", "user"]
+
+
+class TweetLikesSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = TweetComment
+        fields = ["timestamp", "content", "user"]
 
 
 class TweetActionSerializer(serializers.Serializer):
@@ -42,13 +59,61 @@ class TweetSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
     username = serializers.SerializerMethodField(read_only=True)
     parent = TweetCreateSerializer(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Tweet
-        fields = ["id", "content", "likes", "is_retweet", "parent", "username"]
+        fields = [
+            "id",
+            "content",
+            "likes",
+            "is_retweet",
+            "parent",
+            "username",
+            "comments",
+        ]
+        depth = 3
 
     def get_likes(self, obj):
         return obj.likes.count()
 
     def get_username(self, obj):
         return obj.user.username
+
+    def get_comments(self, obj):
+        return obj.comments.count()
+
+
+class TweetDetailSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField(read_only=True)
+    username = serializers.SerializerMethodField(read_only=True)
+    parent = TweetCreateSerializer(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Tweet
+        fields = [
+            "id",
+            "content",
+            "likes",
+            "is_retweet",
+            "parent",
+            "username",
+            "comments",
+        ]
+        depth = 3
+
+    def get_username(self, obj):
+        return obj.user.username
+
+    def get_likes(self, obj):
+        serializer = TweetLikesSerializer(
+            TweetLike.objects.filter(tweet=obj), many=True
+        )
+        return serializer.data
+
+    def get_comments(self, obj):
+        serializer = TweetCommentsSerializer(
+            TweetComment.objects.filter(tweet=obj), many=True
+        )
+        return serializer.data
