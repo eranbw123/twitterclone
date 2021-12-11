@@ -33,9 +33,11 @@ export const TweetsComponent = ({ hideCreate }) => {
 export const TweetPageComponent = (props) => {
   const { tweetId } = useParams();
   const [tweet, setTweet] = useState(null);
+  const [test, setTest] = useState(null);
 
   const handleBackendLookup = (response, status) => {
     if (status === 200) {
+      console.log(response);
       setTweet(response);
     } else {
       alert("there was an error finding your tweet");

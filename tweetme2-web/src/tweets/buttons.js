@@ -8,7 +8,10 @@ import Swal from "sweetalert2";
 
 export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   const likes = tweet.likes ? tweet.likes : 0;
-  const comments = tweet.comments ? tweet.comments : 0;
+  var comments = tweet.comments ? tweet.comments : 0;
+  if (!Number.isInteger(comments)) {
+    comments = comments.length;
+  }
   var display;
   switch (action.type) {
     case "like":

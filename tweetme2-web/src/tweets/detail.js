@@ -32,7 +32,9 @@ export const Tweet = (props) => {
     } else if (status === 201) {
       if (newActionTweet.comment != actionTweet.comments)
         setActionTweet(newActionTweet);
-      props.updateTweets();
+      else {
+        props.updateTweets();
+      }
     }
   };
 
@@ -76,6 +78,7 @@ export const Tweet = (props) => {
 
   return (
     <div className={className}>
+      {console.log("tweet", props.tweet)}
       <div>
         <h6>
           {props.tweet.parent && (

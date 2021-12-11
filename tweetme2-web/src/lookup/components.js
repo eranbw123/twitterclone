@@ -26,5 +26,6 @@ export const backendLookup = async (method, endpoint, callback, data) => {
     }
   }
   console.log("response ", serverResponse, " status ", response.status);
+  console.log(serverResponse, response.status);
   callback(serverResponse, response.status);
 };
