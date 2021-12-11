@@ -83,12 +83,15 @@ export const Tweet = (props) => {
       <div>
         <h6>
           {props.tweet.parent && (
-            <Link
-              to={`/tweet/${id}`}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <p className="mb-0 text-muted small">Retweet</p>
-            </Link>
+            <p className="mb-0">
+              <Link
+                to={`/tweet/${id}`}
+                style={{ textDecoration: "none", color: "black" }}
+                className="mb-0 text-muted small"
+              >
+                Retweet
+              </Link>
+            </p>
           )}
           <Link
             to={`/profile/${username}`}
@@ -106,16 +109,16 @@ export const Tweet = (props) => {
           >
             {timeAgo}
           </span>
-          {localStorage.getItem("username") === username && (
+          {localStorage.getItem("username") === username && !props.hideActions && (
             <IconContext.Provider value={{ size: 18, color: "" }}>
               <RiDeleteBin5Fill
                 onClick={() => handleTweetDeleteClick(id)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginBottom: "2.5px" }}
               />
             </IconContext.Provider>
           )}
         </h6>
-        <p style={{ marginLeft: "13px" }}>
+        <p style={{ marginLeft: "13px", marginBottom: "5px" }}>
           <Link
             to={`/tweet/${id}`}
             style={{ textDecoration: "none", color: "black" }}

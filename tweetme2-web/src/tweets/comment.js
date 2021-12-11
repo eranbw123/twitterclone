@@ -88,7 +88,9 @@ export const Comment = ({
           </IconContext.Provider>
         )}
       </h6>
-      <p style={{ fontSize: "17px", paddingLeft: "7px" }}>{content}</p>
+      <p style={{ fontSize: "17px", paddingLeft: "13px", marginBottom: "0px" }}>
+        {content}
+      </p>
     </div>
   );
 };
