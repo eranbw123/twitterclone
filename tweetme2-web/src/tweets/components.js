@@ -5,6 +5,8 @@ import { TweetCreate } from "./create";
 import { apiTweetDetail } from "./lookup";
 import { Tweet } from "./detail";
 import { apiTweetList } from ".";
+import { CommentList } from "./commentList";
+import { CommentCreate } from "./comment-create";
 
 export const TweetsComponent = ({ hideCreate }) => {
   const { username } = useParams();
@@ -28,7 +30,7 @@ export const TweetsComponent = ({ hideCreate }) => {
   );
 };
 
-export const TweetDetailComponent = (props) => {
+export const TweetPageComponent = (props) => {
   const { tweetId } = useParams();
   const [tweet, setTweet] = useState(null);
 
@@ -40,11 +42,23 @@ export const TweetDetailComponent = (props) => {
     }
   };
 
-  useEffect(() => {
+  const loadTweet = (tweetId) => {
     apiTweetDetail(tweetId, handleBackendLookup);
+  };
+
+  useEffect(() => {
+    loadTweet(tweetId);
   }, [tweetId]);
 
   return tweet === null ? null : (
-    <>{/* <Tweet tweet={tweet} className={props.className} /> */}</>
+    <>
+      <Tweet tweet={tweet} className={props.className} />
+      <CommentCreate tweetId={tweet.id} loadTweet={loadTweet} />
+      <CommentList
+        tweetId={tweet.id}
+        comments={tweet.comments}
+        loadTweet={loadTweet}
+      />
+    </>
   );
 };

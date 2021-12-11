@@ -35,6 +35,13 @@ class TweetActionSerializer(serializers.Serializer):
             raise serializers.ValidationError("This is not a valid action for tweets")
         return value
 
+    def validate_content(self, value):
+        if value and len(value) > MAX_TWEET_LENGTH:
+            raise serializers.ValidationError(
+                "Ensure this field has no more than 150 characters."
+            )
+        return value
+
 
 class TweetCreateSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
@@ -87,6 +94,7 @@ class TweetSerializer(serializers.ModelSerializer):
 
 class TweetDetailSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
+    likes_list = serializers.SerializerMethodField(read_only=True)
     username = serializers.SerializerMethodField(read_only=True)
     parent = TweetCreateSerializer(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
@@ -101,6 +109,7 @@ class TweetDetailSerializer(serializers.ModelSerializer):
             "parent",
             "username",
             "comments",
+            "likes_list",
         ]
         depth = 3
 
@@ -108,6 +117,9 @@ class TweetDetailSerializer(serializers.ModelSerializer):
         return obj.user.username
 
     def get_likes(self, obj):
+        return obj.likes.count()
+
+    def get_likes_list(self, obj):
         serializer = TweetLikesSerializer(
             TweetLike.objects.filter(tweet=obj), many=True
         )

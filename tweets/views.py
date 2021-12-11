@@ -67,7 +67,6 @@ def tweet_action_view(request, *args, **kwargs):
         action = data.get("action")
         content = data.get("content")
         comment_id = data.get("comment_id")
-        print(data)
     qs = Tweet.objects.filter(id=tweet_id)
     if not qs.exists():
         return Response({}, status=404)
@@ -81,29 +80,25 @@ def tweet_action_view(request, *args, **kwargs):
         serializer = TweetSerializer(obj)
         return Response(serializer.data, status=200)
     elif action == "retweet":
-        if len(content) < MAX_TWEET_LENGTH:
-            new_tweet = Tweet.objects.create(
-                user=request.user, parent=obj, content=content
-            )
-            serializer = TweetSerializer(user=request.user, parent=obj, content=content)
-            return Response(serializer.data, status=201)
-        else:
-            return Response(
-                {"Content": "Ensure this field has no more than 150 characters."},
-                status=400,
-            )
+        Tweet.objects.create(user=request.user, parent=obj, content=content)
+        serializer = TweetSerializer(obj)
+        return Response(serializer.data, status=201)
     elif action == "comment":
         new_comment = TweetComment(user=request.user, tweet=obj, content=content)
         new_comment.save()
-        serializer = TweetDetailSerializer(obj)
+        serializer = TweetSerializer(obj)
         return Response(serializer.data, status=201)
     elif action == "delete_comment":
         comments = TweetComment.objects.filter(tweet_id=tweet_id)
         comment = comments.filter(id=comment_id)
         if comment:
-            comment.delete()
-            serializer = TweetDetailSerializer(obj)
-            return Response(serializer.data, status=201)
+            if comment.first().user == request.user:
+                comment.delete()
+                serializer = TweetDetailSerializer(obj)
+                return Response(serializer.data, status=200)
+            else:
+                return Response({"its not your comment"}, status=403)
+
         else:
             return Response({"comment does not exist"}, status=404)
     return Response({}, status=200)

@@ -9,9 +9,13 @@
   border: 5px solid gray;
   padding-block: 10px;
 }
-.create {
+.comment {
   margin-inline: 35vw;
   padding-block: 10px;
+}
+.create {
+  margin-inline: 35vw;
+  padding-top: 30px;
 }
 .navbar-container {
   margin-inline: 33.5vw !important;

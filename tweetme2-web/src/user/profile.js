@@ -10,6 +10,7 @@ export const Profile = (props) => {
   const [location, setLocation] = useState("");
   const [firstName, setFirstName] = useState(" ");
   const [lastName, setLastName] = useState("");
+  const [IsUserExist, setIsUserExist] = useState(true);
 
   useEffect(() => {
     const handleUserDetailGeneral = (response, status) => {
@@ -18,12 +19,16 @@ export const Profile = (props) => {
         setLastName(response.last_name ? response.last_name : "");
         setBio(response.bio ? response.bio : "");
         setLocation(response.location ? response.location : "");
+      } else {
+        setIsUserExist(false);
       }
     };
     apiUserDetailGeneral(username, handleUserDetailGeneral);
   }, [username]);
 
-  return (
+  return !IsUserExist ? (
+    <h1 style={{ marginInline: "40vw" }}>User Does Not exist</h1>
+  ) : (
     <>
       <Card className="profile-card">
         <Card.Body>

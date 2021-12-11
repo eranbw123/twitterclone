@@ -5,12 +5,12 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import { apiTweetDelete } from ".";
 import Swal from "sweetalert2";
+import { FaLaptopHouse } from "react-icons/fa";
 
 export const ParentTweet = (props) => {
   return props.tweet.parent ? (
     <div className="row">
       <div className="col-11 mx-auto p-3 border rounded">
-        <p className="mb-0 text-muted small">Retweet</p>
         <Tweet hideActions className={" "} tweet={props.tweet.parent} />
       </div>
     </div>
@@ -26,8 +26,12 @@ export const Tweet = (props) => {
 
   const handlePerformAction = (newActionTweet, status) => {
     if (status === 200) {
+      console.log(actionTweet);
       setActionTweet(newActionTweet);
+      console.log(newActionTweet);
     } else if (status === 201) {
+      if (newActionTweet.comment != actionTweet.comments)
+        setActionTweet(newActionTweet);
       props.updateTweets();
     }
   };
@@ -56,7 +60,7 @@ export const Tweet = (props) => {
             if (status === 200) {
               swalWithBootstrapButtons.fire(
                 "Deleted!",
-                "Your file has been deleted.",
+                "Your Tweet has been deleted.",
                 "success"
               );
               props.updateTweets();
@@ -74,6 +78,14 @@ export const Tweet = (props) => {
     <div className={className}>
       <div>
         <h6>
+          {props.tweet.parent && (
+            <Link
+              to={`/tweet/${id}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <p className="mb-0 text-muted small">Retweet</p>
+            </Link>
+          )}
           <Link
             to={`/profile/${username}`}
             style={{ textDecoration: "none", color: "black" }}
@@ -112,15 +124,25 @@ export const Tweet = (props) => {
             action={{
               type: "unlike",
             }}
-            className="btn btn-outline-secondary btn-sm"
+            className="btn btn-outline-danger btn-sm"
             didPerformAction={handlePerformAction}
           />
+          {!props.tweet.is_retweet && (
+            <ActionBtn
+              tweet={actionTweet}
+              action={{
+                type: "retweet",
+              }}
+              className="btn btn-success btn-sm"
+              didPerformAction={handlePerformAction}
+            />
+          )}
           <ActionBtn
             tweet={actionTweet}
             action={{
-              type: "retweet",
+              type: "comment",
             }}
-            className="btn btn-outline-success btn-sm"
+            className="btn btn-secondary btn-sm"
             didPerformAction={handlePerformAction}
           />
         </div>

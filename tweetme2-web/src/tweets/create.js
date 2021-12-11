@@ -6,7 +6,7 @@ import { IconContext } from "react-icons";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export const TweetCreate = ({ className, updateTweets }) => {
+export const TweetCreate = ({ updateTweets }) => {
   const textAreaRef = createRef();
 
   const handleBackendUpdate = (response, status) => {
@@ -50,7 +50,7 @@ export const TweetCreate = ({ className, updateTweets }) => {
       {localStorage.getItem("token") && (
         <Form>
           <div className="create">
-            <InputGroup className="mb-3">
+            <InputGroup>
               <InputGroup>
                 <Button variant="outline-secondary" onClick={handleSubmit}>
                   <IconContext.Provider value={{ size: 20 }}>

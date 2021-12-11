@@ -1,19 +1,20 @@
 import React from "react";
 import { apiTweetAction } from ".";
 import { BiLike, BiDislike } from "react-icons/bi";
+import { FaRegComment } from "react-icons/fa";
 import { FaRetweet } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
 
 export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   const likes = tweet.likes ? tweet.likes : 0;
+  const comments = tweet.comments ? tweet.comments : 0;
   var display;
   switch (action.type) {
     case "like":
       display = (
         <>
-          {likes} <BiLike />
+          <span style={{ fontSize: "17px" }}>{likes}</span> <BiLike />
         </>
       );
       break;
@@ -22,6 +23,16 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
       break;
     case "retweet":
       display = <FaRetweet />;
+      break;
+    case "comment":
+      display = (
+        <>
+          <span style={{ fontSize: "17px" }}>{comments}</span>
+          <span style={{ paddingLeft: "6px" }}>
+            <FaRegComment />
+          </span>
+        </>
+      );
       break;
     default:
   }
@@ -33,7 +44,7 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   };
 
   const handleClick = () => {
-    if (action.type !== "retweet") {
+    if (action.type !== "retweet" && action.type !== "comment") {
       apiTweetAction(tweet.id, action.type, "", "", handleActionBackendEvent);
     } else {
       const swalWithBootstrapButtons = Swal.mixin({
@@ -48,8 +59,8 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
         .fire({
           input: "textarea",
           showCancelButton: true,
-          cancelButtonText: "cencel",
-          confirmButtonText: "retweet",
+          cancelButtonText: "cancel",
+          confirmButtonText: action.type,
           inputPlaceholder: "Type your message here...",
           inputAttributes: {
             "aria-label": "Type your message here",
@@ -57,11 +68,17 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            const handleActionBackendEventRetweet = (response, status) => {
+            const handleActionBackendEventRetweetComment = (
+              response,
+              status
+            ) => {
               if (status === 201 && didPerformAction) {
                 didPerformAction(response, status);
               } else {
-                swalWithBootstrapButtons.fire(response.Content);
+                swalWithBootstrapButtons.fire({
+                  title: "Validation Error",
+                  text: response.content[0],
+                });
               }
             };
             console.log(result.value);
@@ -70,7 +87,7 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
               action.type,
               "",
               result.value,
-              handleActionBackendEventRetweet
+              handleActionBackendEventRetweetComment
             );
           } else if (result.dismiss === Swal.DismissReason.cancel) {
           }
