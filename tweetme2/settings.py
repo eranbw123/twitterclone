@@ -136,6 +136,9 @@ MAX_TWEET_LENGTH = 240
 
 TWEET_ACTION_OPTION = ["like", "unlike", "retweet", "comment", "delete_comment"]
 
+TIME_ZONE = "Israel"
+USE_TZ = True
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r"^/api/.*$"
 

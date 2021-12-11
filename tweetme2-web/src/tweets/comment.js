@@ -13,6 +13,8 @@ export const Comment = ({
   tweetId,
   loadTweet,
 }) => {
+  var moment = require("moment");
+  const timeAgo = moment(timestamp, "YYYY-MM-DD  HH:mm:ss:SSSSSS").fromNow();
   const handleCommentDeleteClick = (id) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -67,6 +69,16 @@ export const Comment = ({
         >
           {`@${username} `}
         </Link>
+        <span
+          style={{
+            paddingRight: "10px",
+            paddingLeft: "2px",
+            fontWeight: "normal",
+          }}
+          className="text-muted small"
+        >
+          {timeAgo}
+        </span>
         {localStorage.getItem("username") === username && (
           <IconContext.Provider value={{ size: 18, color: "" }}>
             <RiDeleteBin5Fill

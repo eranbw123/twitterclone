@@ -49,7 +49,7 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ["id", "content", "likes", "username"]
+        fields = ["id", "content", "likes", "username", "timestamp"]
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -79,6 +79,7 @@ class TweetSerializer(serializers.ModelSerializer):
             "parent",
             "username",
             "comments",
+            "timestamp",
         ]
         depth = 3
 
@@ -110,6 +111,7 @@ class TweetDetailSerializer(serializers.ModelSerializer):
             "username",
             "comments",
             "likes_list",
+            "timestamp",
         ]
         depth = 3
 

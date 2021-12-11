@@ -5,7 +5,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import { apiTweetDelete } from ".";
 import Swal from "sweetalert2";
-import { FaLaptopHouse } from "react-icons/fa";
+// import moment from "moment";
 
 export const ParentTweet = (props) => {
   return props.tweet.parent ? (
@@ -23,12 +23,34 @@ export const Tweet = (props) => {
   );
   const className = props.className ? props.className : "tweet border";
   const { id, content, username } = props.tweet;
-
+  var moment = require("moment");
+  moment.updateLocale("en", {
+    relativeTime: {
+      future: "in %s",
+      past: "%s ago",
+      s: "a few seconds",
+      ss: "%d seconds",
+      m: "a minute",
+      mm: "%d minutes",
+      h: "an hour",
+      hh: "%d hours",
+      d: "a day",
+      dd: "%d days",
+      w: "a week",
+      ww: "%d weeks",
+      M: "a month",
+      MM: "%d months",
+      y: "a year",
+      yy: "%d years",
+    },
+  });
+  const timeAgo = moment(
+    props.tweet.timestamp,
+    "YYYY-MM-DD  HH:mm:ss:SSSSSS"
+  ).fromNow();
   const handlePerformAction = (newActionTweet, status) => {
     if (status === 200) {
-      console.log(actionTweet);
       setActionTweet(newActionTweet);
-      console.log(newActionTweet);
     } else if (status === 201) {
       if (newActionTweet.comment != actionTweet.comments)
         setActionTweet(newActionTweet);
@@ -78,7 +100,6 @@ export const Tweet = (props) => {
 
   return (
     <div className={className}>
-      {console.log("tweet", props.tweet)}
       <div>
         <h6>
           {props.tweet.parent && (
@@ -95,6 +116,16 @@ export const Tweet = (props) => {
           >
             {`@${username}`}{" "}
           </Link>
+          <span
+            style={{
+              paddingRight: "10px",
+              paddingLeft: "2px",
+              fontWeight: "normal",
+            }}
+            className="text-muted small"
+          >
+            {timeAgo}
+          </span>
           {localStorage.getItem("username") === username && (
             <IconContext.Provider value={{ size: 18, color: "" }}>
               <RiDeleteBin5Fill
@@ -104,12 +135,14 @@ export const Tweet = (props) => {
             </IconContext.Provider>
           )}
         </h6>
-        <Link
-          to={`/tweet/${id}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <p className="container-fluid ">{content}</p>
-        </Link>
+        <p style={{ marginLeft: "13px" }}>
+          <Link
+            to={`/tweet/${id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            {content}
+          </Link>
+        </p>
         <ParentTweet tweet={props.tweet} />
       </div>
       {actionTweet && props.hideActions !== true && (
