@@ -47,54 +47,60 @@ export const ActionBtn = ({ tweet, action, className, didPerformAction }) => {
   };
 
   const handleClick = () => {
-    if (action.type !== "retweet" && action.type !== "comment") {
-      apiTweetAction(tweet.id, action.type, "", "", handleActionBackendEvent);
-    } else {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: "btn btn-success",
-          cancelButton: "btn btn-danger",
-        },
-        buttonsStyling: false,
-      });
-
-      swalWithBootstrapButtons
-        .fire({
-          input: "textarea",
-          showCancelButton: true,
-          cancelButtonText: "cancel",
-          confirmButtonText: action.type,
-          inputPlaceholder: "Type your message here...",
-          inputAttributes: {
-            "aria-label": "Type your message here",
+    if (localStorage.getItem("username")) {
+      if (action.type !== "retweet" && action.type !== "comment") {
+        apiTweetAction(tweet.id, action.type, "", "", handleActionBackendEvent);
+      } else {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger",
           },
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            const handleActionBackendEventRetweetComment = (
-              response,
-              status
-            ) => {
-              if (status === 201 && didPerformAction) {
-                didPerformAction(response, status);
-              } else {
-                swalWithBootstrapButtons.fire({
-                  title: "Validation Error",
-                  text: response.content[0],
-                });
-              }
-            };
-            console.log(result.value);
-            apiTweetAction(
-              tweet.id,
-              action.type,
-              "",
-              result.value,
-              handleActionBackendEventRetweetComment
-            );
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-          }
+          buttonsStyling: false,
         });
+
+        swalWithBootstrapButtons
+          .fire({
+            input: "textarea",
+            showCancelButton: true,
+            cancelButtonText: "cancel",
+            confirmButtonText: action.type,
+            inputPlaceholder: "Type your message here...",
+            inputAttributes: {
+              "aria-label": "Type your message here",
+            },
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              const handleActionBackendEventRetweetComment = (
+                response,
+                status
+              ) => {
+                if (status === 201 && didPerformAction) {
+                  didPerformAction(response, status);
+                } else {
+                  swalWithBootstrapButtons.fire({
+                    title: "Validation Error",
+                    text: response.content[0],
+                  });
+                }
+              };
+              apiTweetAction(
+                tweet.id,
+                action.type,
+                "",
+                result.value,
+                handleActionBackendEventRetweetComment
+              );
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+            }
+          });
+      }
+    } else {
+      Swal.fire({
+        text: `you need to log in to ${action.type}`,
+        confirmButtonColor: "red",
+      });
     }
   };
   return (

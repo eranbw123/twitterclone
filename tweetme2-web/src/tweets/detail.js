@@ -32,11 +32,8 @@ export const Tweet = (props) => {
     if (status === 200) {
       setActionTweet(newActionTweet);
     } else if (status === 201) {
-      if (newActionTweet.comment != actionTweet.comments)
-        setActionTweet(newActionTweet);
-      else {
-        props.updateTweets();
-      }
+      setActionTweet(newActionTweet);
+      props.updateTweets();
     }
   };
 
@@ -80,54 +77,54 @@ export const Tweet = (props) => {
 
   return (
     <div className={className}>
-      <div>
-        <h6>
-          {props.tweet.parent && (
-            <p className="mb-0">
-              <Link
-                to={`/tweet/${id}`}
-                style={{ textDecoration: "none", color: "black" }}
-                className="mb-0 text-muted small"
-              >
-                Retweet
-              </Link>
-            </p>
-          )}
-          <Link
-            to={`/profile/${username}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            {`@${username}`}{" "}
-          </Link>
-          <span
-            style={{
-              paddingRight: "10px",
-              paddingLeft: "2px",
-              fontWeight: "normal",
-            }}
-            className="text-muted small"
-          >
-            {timeAgo}
-          </span>
-          {localStorage.getItem("username") === username && !props.hideActions && (
-            <IconContext.Provider value={{ size: 18, color: "" }}>
-              <RiDeleteBin5Fill
-                onClick={() => handleTweetDeleteClick(id)}
-                style={{ cursor: "pointer", marginBottom: "2.5px" }}
-              />
-            </IconContext.Provider>
-          )}
-        </h6>
-        <p style={{ marginLeft: "13px", marginBottom: "5px" }}>
-          <Link
-            to={`/tweet/${id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            {content}
-          </Link>
-        </p>
-        <ParentTweet tweet={props.tweet} />
-      </div>
+      <Link
+        to={`/tweet/${id}`}
+        style={{ textDecoration: "none", color: "black" }}
+        // className="mb-0 text-muted small"
+      >
+        <div>
+          <h6>
+            {props.tweet.parent && (
+              <p className="mb-0 text-muted small">Retweet</p>
+            )}
+            <Link
+              to={`/profile/${username}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              {`@${username}`}{" "}
+            </Link>
+            <span
+              style={{
+                paddingRight: "10px",
+                paddingLeft: "2px",
+                fontWeight: "normal",
+              }}
+              className="text-muted small"
+            >
+              {timeAgo}
+            </span>
+            {localStorage.getItem("username") === username &&
+              !props.hideActions && (
+                <IconContext.Provider value={{ size: 18, color: "" }}>
+                  <RiDeleteBin5Fill
+                    onClick={() => handleTweetDeleteClick(id)}
+                    style={{ cursor: "pointer", marginBottom: "2.5px" }}
+                  />
+                </IconContext.Provider>
+              )}
+          </h6>
+          <p style={{ marginLeft: "13px", marginBottom: "5px" }}>
+            <Link
+              to={`/tweet/${id}`}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              {content}
+            </Link>
+          </p>
+          <ParentTweet tweet={props.tweet} />
+        </div>
+      </Link>
+
       {actionTweet && props.hideActions !== true && (
         <div className="btn btn-group">
           <ActionBtn

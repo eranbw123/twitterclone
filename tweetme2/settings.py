@@ -151,6 +151,8 @@ DEFAULT_RENDERER_CLASSES = [
     "rest_framework.renderers.JSONRenderer",
 ]
 
+DJOSER = {}
+
 if DEBUG:
     # DEFAULT_AUTHENTICATION_CLASSES += [
     #     "tweetme2.rest_api.dev.DevAuthentication",
