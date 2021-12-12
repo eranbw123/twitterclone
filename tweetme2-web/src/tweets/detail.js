@@ -80,7 +80,6 @@ export const Tweet = (props) => {
       <Link
         to={`/tweet/${id}`}
         style={{ textDecoration: "none", color: "black" }}
-        // className="mb-0 text-muted small"
       >
         <div>
           <h6>
@@ -91,7 +90,7 @@ export const Tweet = (props) => {
               to={`/profile/${username}`}
               style={{ textDecoration: "none", color: "black" }}
             >
-              {`@${username}`}{" "}
+              {`@${username}`}
             </Link>
             <span
               style={{
