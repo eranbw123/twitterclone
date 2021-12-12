@@ -103,15 +103,19 @@ export const Tweet = (props) => {
             >
               {timeAgo}
             </span>
-            {localStorage.getItem("username") === username &&
-              !props.hideActions && (
-                <IconContext.Provider value={{ size: 18, color: "" }}>
-                  <RiDeleteBin5Fill
-                    onClick={() => handleTweetDeleteClick(id)}
-                    style={{ cursor: "pointer", marginBottom: "2.5px" }}
-                  />
-                </IconContext.Provider>
-              )}
+            <Link to="/">
+              {localStorage.getItem("username") === username &&
+                !props.hideActions && (
+                  <IconContext.Provider
+                    value={{ size: 18, textDecoration: "none", color: "black" }}
+                  >
+                    <RiDeleteBin5Fill
+                      onClick={() => handleTweetDeleteClick(id)}
+                      style={{ cursor: "pointer", marginBottom: "2.5px" }}
+                    />
+                  </IconContext.Provider>
+                )}
+            </Link>
           </h6>
           <p style={{ marginLeft: "13px", marginBottom: "5px" }}>
             <Link
