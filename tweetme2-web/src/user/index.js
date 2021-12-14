@@ -5,6 +5,7 @@ import {
   apiUserDetailGeneral,
   apiUserDetail,
   apiUserUpdate,
+  apiLogout,
 } from "./lookup";
 import { RegistrationForm } from "./register";
 import { UpdateProfile } from "./update-profile";
@@ -15,6 +16,7 @@ export {
   apiUserCreate,
   RegistrationForm,
   apiLogin,
+  apiLogout,
   apiUserDetailGeneral,
   apiUserDetail,
   apiUserUpdate,
